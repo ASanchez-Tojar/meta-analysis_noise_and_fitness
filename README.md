@@ -8,7 +8,7 @@
 
 **Category:** Project
 
-**Code License:** [MIT](https://github.com/ASanchez-Tojar/meta-analysis__noise_and_fitness/tree/main?tab=License-1-ov-file)
+**Code License:** [MIT](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/tree/main?tab=License-1-ov-file)
 
 **Data License:** [CC BY 4.0](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/data_LICENSE.txt)
 
