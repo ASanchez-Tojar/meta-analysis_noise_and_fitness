@@ -75,6 +75,120 @@ setdiff(unique(noise.ES.final$species.updated.new),noise.ES.final$species.update
 # unit-level moderator to do so: it's ready
 length(unique(noise.ES.final$ES_ID))==length(noise.ES.final$ES_ID)
 
+################################################################################
+# Summary statistics: systematic review
+################################################################################
+
+# Before we start the analyses, we will explore the dataset features and sample
+# sizes to be able to provide a summary of our meta-analytic dataset at the 
+# beginning of our results section
+
+# Total number of effect sizes
+nrow(noise.ES.final)
+
+# Total number of studies
+length(unique(noise.ES.final$Study_ID))
+
+# Year of publication
+summary(noise.ES.final$Year)
+median(noise.ES.final$Year)
+
+# Number of studies published after 2014
+studies.per.year.SS <- noise.ES.final %>%
+  distinct(Study_ID, Year) %>%
+  count(Year, name = "Studies") %>%
+  filter(Year > 2014)
+
+# Studies per year since 2015 (i.e., the last 10 years)
+summary(studies.per.year.SS$Studies)
+round((nrow(studies.per.year.SS)/length(unique(noise.ES.final$Year)))*100,0)
+
+# Where were the studies published
+studies.per.source.SS <- noise.ES.final %>%
+  group_by(Journal) %>%
+  summarise(n_studies = n_distinct(Study_ID)) %>%
+  arrange(desc(n_studies))%>%
+  as.data.frame()
+
+studies.per.source.SS
+
+# Total number of species
+length(unique(noise.ES.final$species.updated))
+
+# Total number of identified research group
+length(unique(noise.ES.final$Lab_PI_2))
+
+# Studies per research group
+studies.per.lab.SS <- noise.ES.final %>%
+  group_by(Lab_PI_2) %>%
+  summarise(n_studies = n_distinct(Study_ID)) %>%
+  arrange(desc(n_studies))
+
+summary(studies.per.lab.SS$n_studies)
+
+# Studies and Effect sizes per species
+studies.per.species.SS <- noise.ES.final %>%
+  group_by(species.updated) %>%
+  summarise(
+    n_effects = n(),
+    n_studies = n_distinct(Study_ID)
+  ) %>%
+  arrange(desc(n_studies)) %>%
+  as.data.frame()
+
+studies.per.species.SS
+
+summary(studies.per.species.SS$n_studies)
+summary(studies.per.species.SS$n_effects)
+
+# Percentage of species studied by a single study
+round((nrow(studies.per.species.SS[studies.per.species.SS$n_studies==1,]) /
+         nrow(studies.per.species.SS))*100,0)
+
+# Percentage of effect sizes by the top most studied species
+top7_percentage <- studies.per.species.SS %>%
+  slice_max(n_effects, n = 7) %>%
+  summarise(
+    top7_effects = sum(n_effects),
+    total_effects = sum(studies.per.species.SS$n_effects),
+    percentage = round(100 * top7_effects / total_effects,0)
+  )
+
+top7_percentage
+
+# Percentage of studies by the top most studied species
+top7_studies <- noise.ES.final %>%
+  filter(species.updated %in% (
+    studies.per.species.SS %>%
+      slice_max(n_effects, n = 7) %>%
+      pull(species.updated)
+  )) %>%
+  summarise(n_unique_studies = n_distinct(Study_ID))
+
+round((top7_studies$n_unique_studies/length(unique(noise.ES.final$species.updated))*100),0)
+
+# Number of effect sizes per study
+effects.per.study <- noise.ES.final %>%
+  group_by(Study_ID) %>%
+  summarise(n_effects = n()) %>%
+  arrange(desc(n_effects)) %>%
+  as.data.frame()
+
+effects.per.study
+
+round(summary(effects.per.study$n_effects),1)
+round(sd(effects.per.study$n_effects),1)
+round(median(effects.per.study$n_effects),1)
+
+# Understanding adjusted sample size per study
+round(summary(noise.ES.final$N_final_total_adj),0)
+round(sd(noise.ES.final$N_final_total_adj),0)
+round(median(noise.ES.final$N_final_total_adj),0)
+
+# Number of effect sizes based on 95 or more replication units
+nrow(noise.ES.final[noise.ES.final$N_final_total_adj>95,])
+round((nrow(noise.ES.final[noise.ES.final$N_final_total_adj>94,])/nrow(noise.ES.final))*100,1)
+
 
 ################################################################################
 # MAIN EFFECTS = intercept-only model: main
@@ -1341,3 +1455,90 @@ fig_SMD.H.VCV.geary.test
 
 # The amount of heterogeneity explained is: ~X%
 round(r2_ml(SMD.H.VCV.geary.test)*100, 1)[1]
+
+################################################################################
+# Journal vs Thesis
+################################################################################
+
+# Since our dataset contains data from 7 PhD theses, which can be considered as
+# grey literature. It is worth exploring differences between traditionally
+# considerd publications (in Journals) vs these theses as an exploration.
+
+# checking the size of this subset by checking NA's: if different, new VCV
+table(is.na(noise.ES.final.SMD.H$Journal))
+
+# categorising the studies into thesis vs journal
+noise.ES.final.SMD.H$publication_source <- ifelse(noise.ES.final.SMD.H$Journal=="NA (thesis)",
+                                                  "thesis",
+                                                  "journal")
+
+table(is.na(noise.ES.final.SMD.H$publication_source))
+table(noise.ES.final.SMD.H$publication_source)
+
+# geary_test
+SMD.H.VCV.publication.source <- rma.mv(yi = yi.SMD.H.signed,
+                                       V = VCV_vi.SMD.H,
+                                       mods = ~ 1 + publication_source,
+                                       random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                                     ~ 1 | Lab_PI_2,
+                                                     ~ 1 | Repeated_trait_ID_unique,
+                                                     ~ 1 | species.updated,
+                                                     ~ 1 | species.updated.new,
+                                                     ~ 1 | Study_ID,
+                                                     ~ 1 | ES_ID),
+                                       method = "REML",
+                                       R = list(species.updated.new = phylo_cor_new),
+                                       control = list(optimizer="optim"),
+                                       test = "t",
+                                       data = noise.ES.final.SMD.H)
+
+# Saving model
+saveRDS(SMD.H.VCV.publication.source, 
+        file = "code/models/supplementary_analyses/SMD_H_VCV_publication_source.rds")
+
+# Load model
+SMD.H.VCV.publication.source <- readRDS("code/models/supplementary_analyses/SMD_H_VCV_publication_source.rds")
+
+# Results
+summary(SMD.H.VCV.publication.source,digits=3)
+
+# removing intercept to see each effect size separately
+SMD.H.VCV.publication.source.NoInt <- rma.mv(yi = yi.SMD.H.signed,
+                                             V = VCV_vi.SMD.H,
+                                             mods = ~ -1 + publication_source,
+                                             random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                                           ~ 1 | Lab_PI_2,
+                                                           ~ 1 | Repeated_trait_ID_unique,
+                                                           ~ 1 | species.updated,
+                                                           ~ 1 | species.updated.new,
+                                                           ~ 1 | Study_ID,
+                                                           ~ 1 | ES_ID),
+                                             method = "REML",
+                                             R = list(species.updated.new = phylo_cor_new),
+                                             control = list(optimizer="optim"),
+                                             test = "t",
+                                             data = noise.ES.final.SMD.H)
+
+# Saving model
+saveRDS(SMD.H.VCV.publication.source.NoInt, 
+        file = "code/models/supplementary_analyses/SMD_H_VCV_publication_source_NoInt.rds")
+
+# Load model
+SMD.H.VCV.publication.source.NoInt <- readRDS("code/models/supplementary_analyses/SMD_H_VCV_publication_source_NoInt.rds")
+
+# Results
+summary(SMD.H.VCV.publication.source.NoInt,digits=3)
+
+# plotting
+fig_SMD.H.VCV.publication.source <- orchaRd::orchard_plot(SMD.H.VCV.publication.source, 
+                                                          mod = "publication_source", 
+                                                          group = "Study_ID", 
+                                                          xlab = "Effect size (SMD.H)",
+                                                          trunk.size = 2,
+                                                          branch.size = 3,
+                                                          twig.size = 1)
+
+fig_SMD.H.VCV.publication.source
+
+# The amount of heterogeneity explained is: ~X%
+round(r2_ml(SMD.H.VCV.publication.source)*100, 1)[1]

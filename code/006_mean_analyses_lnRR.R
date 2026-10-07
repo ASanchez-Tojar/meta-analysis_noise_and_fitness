@@ -1341,3 +1341,91 @@ fig_lnRR.VCV.geary.test
 
 # The amount of heterogeneity explained is: ~X%
 round(r2_ml(lnRR.VCV.geary.test)*100, 1)[1]
+
+
+################################################################################
+# Journal vs Thesis
+################################################################################
+
+# Since our dataset contains data from 7 PhD theses, which can be considered as
+# grey literature. It is worth exploring differences between traditionally
+# considerd publications (in Journals) vs these theses as an exploration.
+
+# checking the size of this subset by checking NA's: if different, new VCV
+table(is.na(noise.ES.final.lnRR$Journal))
+
+# categorising the studies into thesis vs journal
+noise.ES.final.lnRR$publication_source <- ifelse(noise.ES.final.lnRR$Journal=="NA (thesis)",
+                                                 "thesis",
+                                                 "journal")
+
+table(is.na(noise.ES.final.lnRR$publication_source))
+table(noise.ES.final.lnRR$publication_source)
+
+# geary_test
+lnRR.VCV.publication.source <- rma.mv(yi = yi.lnRR.signed,
+                                      V = VCV_vi.lnRR,
+                                      mods = ~ 1 + publication_source,
+                                      random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                                    ~ 1 | Lab_PI_2,
+                                                    ~ 1 | Repeated_trait_ID_unique,
+                                                    ~ 1 | species.updated,
+                                                    ~ 1 | species.updated.new,
+                                                    ~ 1 | Study_ID,
+                                                    ~ 1 | ES_ID),
+                                      method = "REML",
+                                      R = list(species.updated.new = phylo_cor_new),
+                                      control = list(optimizer="optim"),
+                                      test = "t",
+                                      data = noise.ES.final.lnRR)
+
+# Saving model
+saveRDS(lnRR.VCV.publication.source, 
+        file = "code/models/supplementary_analyses/lnRR_VCV_publication_source.rds")
+
+# Load model
+lnRR.VCV.publication.source <- readRDS("code/models/supplementary_analyses/lnRR_VCV_publication_source.rds")
+
+# Results
+summary(lnRR.VCV.publication.source,digits=3)
+
+# removing intercept to see each effect size separately
+lnRR.VCV.publication.source.NoInt <- rma.mv(yi = yi.lnRR.signed,
+                                            V = VCV_vi.lnRR,
+                                            mods = ~ -1 + publication_source,
+                                            random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                                          ~ 1 | Lab_PI_2,
+                                                          ~ 1 | Repeated_trait_ID_unique,
+                                                          ~ 1 | species.updated,
+                                                          ~ 1 | species.updated.new,
+                                                          ~ 1 | Study_ID,
+                                                          ~ 1 | ES_ID),
+                                            method = "REML",
+                                            R = list(species.updated.new = phylo_cor_new),
+                                            control = list(optimizer="optim"),
+                                            test = "t",
+                                            data = noise.ES.final.lnRR)
+
+# Saving model
+saveRDS(lnRR.VCV.publication.source.NoInt, 
+        file = "code/models/supplementary_analyses/lnRR_VCV_publication_source_NoInt.rds")
+
+# Load model
+lnRR.VCV.publication.source.NoInt <- readRDS("code/models/supplementary_analyses/lnRR_VCV_publication_source_NoInt.rds")
+
+# Results
+summary(lnRR.VCV.publication.source.NoInt,digits=3)
+
+# plotting
+fig_lnRR.VCV.publication.source <- orchaRd::orchard_plot(lnRR.VCV.publication.source, 
+                                                         mod = "publication_source", 
+                                                         group = "Study_ID", 
+                                                         xlab = "Effect size (lnRR)",
+                                                         trunk.size = 2,
+                                                         branch.size = 3,
+                                                         twig.size = 1)
+
+fig_lnRR.VCV.publication.source
+
+# The amount of heterogeneity explained is: ~X%
+round(r2_ml(lnRR.VCV.publication.source)*100, 1)[1]
