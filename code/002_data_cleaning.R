@@ -299,7 +299,6 @@ noise %>%
   arrange(desc(nchar(ES_sources))) %>% 
   as.data.frame()
 
-
 ################################################################################
 # ES_ID
 ################################################################################
@@ -1064,7 +1063,7 @@ irrelevant.noise <- c("pink",
 all.noise <- unique(noise$Noise_type_2)
 
 setdiff(all.noise,
-  c(relevant.noise, irrelevant.noise)
+        c(relevant.noise, irrelevant.noise)
 )
 
 setdiff(relevant.noise, all.noise)
@@ -4047,6 +4046,27 @@ noise <- noise %>%
 
 nrow(noise)
 length(unique(noise$Study_ID))
+
+
+################################################################################ 
+# Data source for Hypothesis 5, P.19
+################################################################################ 
+
+table(noise$ES_source_2)
+table(is.na(noise$ES_source_2))
+
+noise <- noise %>%
+  group_by(Study_ID) %>%
+  mutate(data_reporting = if_else(
+    any(ES_source_2 %in% c("authcorr", "mixed_pub_authcorr"), na.rm = TRUE),
+    "incomplete",
+    "complete")
+  ) %>%
+  ungroup() %>%
+  as.data.frame()
+
+table(noise$data_reporting)
+table(is.na(noise$data_reporting))
 
 ################################################################################
 # Exporting dataset

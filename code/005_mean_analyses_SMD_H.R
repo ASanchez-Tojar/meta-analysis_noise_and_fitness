@@ -1230,15 +1230,80 @@ fig_SMD.H.VCV.H5.P18
 # The amount of heterogeneity explained is: ~X%
 round(r2_ml(SMD.H.VCV.H5.P18)*100, 1)[1]
 
-# ################################################################################
-# # Data reporting (Hypothesis 5, P.19)
-# ################################################################################
-# 
-# # checking the size of this subset by checking NA's: if different, new VCV
-# table(is.na(noise.ES.final.SMD.H$Bird_age_category))
-# 
-# # data_reporting
+################################################################################
+# Data reporting (Hypothesis 5, P.19)
+################################################################################
 
+# checking the size of this subset by checking NA's: if different, new VCV
+table(is.na(noise.ES.final.SMD.H$data_reporting))
+
+# data_reporting
+SMD.H.VCV.H5.P19 <- rma.mv(yi = yi.SMD.H.signed,
+                           V = VCV_vi.SMD.H,
+                           mods = ~ 1 + data_reporting,
+                           random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                         ~ 1 | Lab_PI_2,
+                                         ~ 1 | Repeated_trait_ID_unique,
+                                         ~ 1 | species.updated,
+                                         ~ 1 | species.updated.new,
+                                         ~ 1 | Study_ID,
+                                         ~ 1 | ES_ID),
+                           method = "REML",
+                           R = list(species.updated.new = phylo_cor_new),
+                           control = list(optimizer="optim"),
+                           test = "t",
+                           data = noise.ES.final.SMD.H)
+
+# Saving model
+saveRDS(SMD.H.VCV.H5.P19, 
+        file = "code/models/main_analyses/SMD_H_VCV_H5_P19.rds")
+
+# Load model
+SMD.H.VCV.H5.P19 <- readRDS("code/models/main_analyses/SMD_H_VCV_H5_P19.rds")
+
+# Results
+summary(SMD.H.VCV.H5.P19,digits=3)
+
+# removing intercept to see each effect size separately
+SMD.H.VCV.H5.P19.NoInt <- rma.mv(yi = yi.SMD.H.signed,
+                                 V = VCV_vi.SMD.H,
+                                 mods = ~ -1 + data_reporting,
+                                 random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                               ~ 1 | Lab_PI_2,
+                                               ~ 1 | Repeated_trait_ID_unique,
+                                               ~ 1 | species.updated,
+                                               ~ 1 | species.updated.new,
+                                               ~ 1 | Study_ID,
+                                               ~ 1 | ES_ID),
+                                 method = "REML",
+                                 R = list(species.updated.new = phylo_cor_new),
+                                 control = list(optimizer="optim"),
+                                 test = "t",
+                                 data = noise.ES.final.SMD.H)
+
+# Saving model
+saveRDS(SMD.H.VCV.H5.P19.NoInt, 
+        file = "code/models/main_analyses/SMD_H_VCV_H5_P19_NoInt.rds")
+
+# Load model
+SMD.H.VCV.H5.P19.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H5_P19_NoInt.rds")
+
+# Results
+summary(SMD.H.VCV.H5.P19.NoInt,digits=3)
+
+# plotting
+fig_SMD.H.VCV.H5.P19 <- orchaRd::orchard_plot(SMD.H.VCV.H5.P19, 
+                                              mod = "data_reporting", 
+                                              group = "Study_ID", 
+                                              xlab = "Effect size (SMD.H)",
+                                              trunk.size = 2,
+                                              branch.size = 3,
+                                              twig.size = 1)
+
+fig_SMD.H.VCV.H5.P19
+
+# The amount of heterogeneity explained is: ~X%
+round(r2_ml(SMD.H.VCV.H5.P19)*100, 1)[1]
 
 ################################################################################
 # All-in test
