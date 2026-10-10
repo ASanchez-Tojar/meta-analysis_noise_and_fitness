@@ -48,6 +48,9 @@ sigma2_v <- function(mod){
   return(sigma2_v)
 }
 
+# sourcing the het_interpret() custom function
+source("code/functions.R")
+
 ################################################################################
 # Loading data
 ################################################################################
@@ -261,7 +264,30 @@ round(I2_SMD.H.VCV,2)
 # ratio of variance to sampling error: confirmation
 round(I2_SMD.H.VCV[[1]]/(100-I2_SMD.H.VCV[[1]]),1)
 
+# CVH2 (Yang et al. 2025)
+CV2_SMD.H.VCV <- orchaRd::cvh2_ml(SMD.H.VCV)
+round(CV2_SMD.H.VCV,2)
+
+# M2 (Yang et al. 2025)
+M2_SMD.H.VCV <- orchaRd::m2_ml(SMD.H.VCV)
+round(M2_SMD.H.VCV,2)
+
+# M2 combines the strengths of variance-scaled (I2) and mean-scaled metrics (CVH2) 
+# and has been suggested as a remedy for the problems of both I2 and CVH2 in 
+# scenarios such as those observed in our dataset. For equations and more 
+# information about the interpretation of these heterogeneity metrics, see 
+# Yang et al. (2025) https://doi.org/10.1111/2041-210x.70155
+
 # These heterogeneity metrics point at low to moderate levels of heterogeneity
+# Using the custom function provided by Yang et al. 2025 https://github.com/Yefeng0920/heterogeneity_guide/tree/main
+
+# Load cleaned dataset
+het.benchmark <- read.csv("data/het.benchmark.csv",header=T)
+het_interpret(observed_value = sigma2_SMD.H.VCV, het_type = "sigma2", es_type = "SMD", data = het.benchmark)
+het_interpret(observed_value = I2_SMD.H.VCV[[1]]/100, het_type = "I2", es_type = "SMD", data = het.benchmark)
+het_interpret(observed_value = CV2_SMD.H.VCV[[1]], het_type = "CVH", es_type = "SMD", data = het.benchmark)
+het_interpret(observed_value = M2_SMD.H.VCV[[1]], het_type = "M", es_type = "SMD", data = het.benchmark)
+
 
 # Plotting this results
 results_SMD.H.VCV <- mod_results(SMD.H.VCV, 

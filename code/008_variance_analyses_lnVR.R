@@ -147,7 +147,24 @@ round(I2_lnVR.VCV,2)
 # ratio of variance to sampling error: confirmation
 round(I2_lnVR.VCV[[1]]/(100-I2_lnVR.VCV[[1]]),1)
 
+# CVH2 (Yang et al. 2025)
+CV2_lnVR.VCV <- orchaRd::cvh2_ml(lnVR.VCV)
+round(CV2_lnVR.VCV,2)
+
+# M2 (Yang et al. 2025)
+M2_lnVR.VCV <- orchaRd::m2_ml(lnVR.VCV)
+round(M2_lnVR.VCV,2)
+
+# M2 combines the strengths of variance-scaled (I2) and mean-scaled metrics (CVH2) 
+# and has been suggested as a remedy for the problems of both I2 and CVH2 in 
+# scenarios such as those observed in our dataset. For equations and more 
+# information about the interpretation of these heterogeneity metrics, see 
+# Yang et al. (2025) https://doi.org/10.1111/2041-210x.70155
+
 # These heterogeneity metrics point at low to moderate levels of heterogeneity
+# Using the custom function provided by Yang et al. 2025 https://github.com/Yefeng0920/heterogeneity_guide/tree/main
+
+# No benchmark data available
 
 # Plotting this results
 results_lnVR.VCV <- mod_results(lnVR.VCV, 
