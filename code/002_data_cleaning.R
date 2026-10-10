@@ -1116,9 +1116,19 @@ industrial.noise <- c("screwpump",
                       "drilling rigs",
                       "chainsaw",
                       "landmower",
-                      "industrial")
+                      "industrial",
+                      "traffic + industrial","construction + traffic") # see comment just below
 
-traffic.noise.industrial <- c("traffic + industrial","construction + traffic")
+# because there are only 3 data points, from 1 study, and we had said in our 
+# preregistration: "Whenever no clear information is available from the original 
+# study, NA will be used and the analysis will be performed on the complete cases 
+# only. Models including categorical moderators will require a minimum of 5 data 
+# points per moderator level, or else the model(s) will be run without that 
+# specific moderator level unless the level can be meaningfully combined with 
+# another moderator level in a broader category named “other”."
+# We are adding these two types to "industrial.noise" which has a final lower 
+# sample size than "traffice.noise"
+# traffic.noise.industrial <- c("traffic + industrial","construction + traffic")
 
 military.industrial <- c("explosives", "military")
 
@@ -1131,7 +1141,7 @@ noise <- noise %>%
       
       Noise_type_2 %in% industrial.noise ~ "industrial", 
       
-      Noise_type_2 %in% traffic.noise.industrial ~ "traffic.and.industrial",
+      # Noise_type_2 %in% traffic.noise.industrial ~ "traffic.and.industrial",
       
       Noise_type_2 %in% military.industrial ~ "military",
       
@@ -1140,7 +1150,9 @@ noise <- noise %>%
     
     Noise_type_4 = factor(
       Noise_type_4,
-      levels = c("traffic", "industrial", "traffic.and.industrial", "military")
+      levels = c("traffic", "industrial", 
+                 #"traffic.and.industrial", 
+                 "military")
     )
   )
 
