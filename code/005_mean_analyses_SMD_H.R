@@ -37,9 +37,6 @@ pacman::p_load(dplyr,
 # cleaning environment
 rm(list=ls())
 
-setwd("C:/Users/localadmin/Dropbox/EXCELSiOR/projects/meta-analysis_and_synthesis/meta-analysis_anthropogenic_noise_fitness_birds/")
-#setwd("C:/Users/Boss/Dropbox/EXCELSiOR/projects/meta-analysis_and_synthesis/meta-analysis_anthropogenic_noise_fitness_birds/")
-
 ################################################################################
 # Functions needed
 ################################################################################
