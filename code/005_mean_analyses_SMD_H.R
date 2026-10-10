@@ -1674,12 +1674,12 @@ round(r2_ml(SMD.H.VCV.publication.source)*100, 1)[1]
 # is just for printing results)
 models.1 <- list(
   Fitness_proxy_level = list(m = SMD.H.VCV.H1.P3.NoInt, mod = "Outcome_level"),
-  Fitness_proxy_category    = list(m = SMD.H.VCV.H1.P5.NoInt, mod = "Outcome_4"),
-  Bird_stage    = list(m = SMD.H.VCV.H2.P7.NoInt, mod = "Bird_age_category"),
-  Time_after_hatching    = list(m = SMD.H.VCV.H2.P8, mod = "Bird_age_2"),
-  Noise_treatment_extent    = list(m = SMD.H.VCV.H3.P9.NoInt, mod = "Broadcast_period_3"),
-  Time_of_exposure    = list(m = SMD.H.H3.P10.P11, mod = "Spl_time_after_noise_2"),
-  Noise_treatment    = list(m = SMD.H.VCV.H3.P12, mod = "Dif_noise_mean")
+  Fitness_proxy_category = list(m = SMD.H.VCV.H1.P5.NoInt, mod = "Outcome_4"),
+  Bird_stage = list(m = SMD.H.VCV.H2.P7.NoInt, mod = "Bird_age_category"),
+  Time_after_hatching = list(m = SMD.H.VCV.H2.P8, mod = "Bird_age_2"),
+  Noise_treatment_extent = list(m = SMD.H.VCV.H3.P9.NoInt, mod = "Broadcast_period_3"),
+  Time_of_exposure = list(m = SMD.H.H3.P10.P11, mod = "Spl_time_after_noise_2"),
+  Noise_treatment = list(m = SMD.H.VCV.H3.P12, mod = "Dif_noise_mean")
 )
 
 big_table.1 <- bind_rows(
@@ -1692,9 +1692,9 @@ big_table.1
 # Here is the second table (methods / RoB)
 models.2 <- list(
   Noise_biological_relevance = list(m = SMD.H.VCV.H4.P13.NoInt, mod = "Noise_type_3"),
-  Noise_type    = list(m = SMD.H.VCV.H4.P14.NoInt, mod = "Noise_type_4"),
-  Study_location    = list(m = SMD.H.VCV.H4.P15.NoInt, mod = "Captive_generation_2"),
-  Noise_measuring_position    = list(m = SMD.H.VCV.H4.P16.NoInt, mod = "SPLm_pos_2")
+  Noise_type = list(m = SMD.H.VCV.H4.P14.NoInt, mod = "Noise_type_4"),
+  Study_location = list(m = SMD.H.VCV.H4.P15.NoInt, mod = "Captive_generation_2"),
+  Noise_measuring_position = list(m = SMD.H.VCV.H4.P16.NoInt, mod = "SPLm_pos_2")
 )
 
 big_table.2 <- bind_rows(
@@ -1706,9 +1706,9 @@ big_table.2
 
 # Here is the third table (publication biases)
 models.3 <- list(
-  Noise_biological_relevance = list(m = SMD.H.VCV.H4.P13.NoInt, mod = "Noise_type_3"),
-  Noise_type    = list(m = SMD.H.VCV.H4.P14.NoInt, mod = "Noise_type_4"),
-  Study_location    = list(m = SMD.H.VCV.H4.P15.NoInt, mod = "Captive_generation_2"),
+  Small-study_effects = list(m = SMD.H.VCV.H5.P17, mod = "sqrt_inv_eff_N"),
+  Decline_effects = list(m = SMD.H.VCV.H5.P18, mod = "Year_c"),
+  Reporting_effects = list(m = SMD.H.VCV.H5.P19.NoInt, mod = "data_reporting"),
 )
 
 big_table.3 <- bind_rows(
