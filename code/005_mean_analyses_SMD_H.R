@@ -381,6 +381,9 @@ SMD.H.VCV.H1.P3.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H1_P3_NoIn
 # Results
 summary(SMD.H.VCV.H1.P3.NoInt,digits=3)
 
+# estimates for big table
+extract_model(SMD.H.VCV.H1.P3.NoInt, moderator = "Outcome_level")
+
 # plotting
 fig_SMD.H.VCV.H1.P3 <- orchaRd::orchard_plot(SMD.H.VCV.H1.P3, 
                                              mod = "Outcome_level", 
@@ -455,6 +458,9 @@ SMD.H.VCV.H1.P5.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H1_P5_NoIn
 
 # Results
 summary(SMD.H.VCV.H1.P5.NoInt,digits=3)
+
+# estimates for big table
+extract_model(SMD.H.VCV.H1.P5.NoInt, moderator = "Outcome_4")
 
 # plotting
 fig_SMD.H.VCV.H1.P5 <- orchaRd::orchard_plot(SMD.H.VCV.H1.P5, 
@@ -532,6 +538,9 @@ SMD.H.VCV.H2.P7.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H2_P7_NoIn
 # Results
 summary(SMD.H.VCV.H2.P7.NoInt,digits=3)
 
+# estimates for big table
+extract_model(SMD.H.VCV.H2.P7.NoInt, moderator = "Bird_age_category")
+
 # plotting
 fig_SMD.H.VCV.H2.P7 <- orchaRd::orchard_plot(SMD.H.VCV.H2.P7, 
                                              mod = "Bird_age_category", 
@@ -589,6 +598,9 @@ SMD.H.VCV.H2.P8 <- readRDS("code/models/main_analyses/SMD_H_VCV_H2_P8.rds")
 
 # Results
 summary(SMD.H.VCV.H2.P8,digits=3)
+
+# estimates for big table
+extract_model(SMD.H.VCV.H2.P8, moderator = "Bird_age_2")
 
 # plotting
 fig_SMD.H.VCV.H2.P8 <- orchaRd::bubble_plot(SMD.H.VCV.H2.P8, 
@@ -675,6 +687,9 @@ SMD.H.VCV.H3.P9.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H3_P9_NoIn
 # Results
 summary(SMD.H.VCV.H3.P9.NoInt,digits=3)
 
+# estimates for big table
+extract_model(SMD.H.VCV.H3.P9.NoInt, moderator = "Broadcast_period_3")
+
 # plotting
 fig_SMD.H.VCV.H3.P9 <- orchaRd::orchard_plot(SMD.H.VCV.H3.P9, 
                                              mod = "Broadcast_period_3", 
@@ -738,6 +753,9 @@ SMD.H.H3.P10.P11 <- readRDS("code/models/main_analyses/SMD_H_VCV_H3_P10_P11.rds"
 
 # Results
 summary(SMD.H.H3.P10.P11,digits=3)
+
+# estimates for big table
+extract_model(SMD.H.H3.P10.P11, moderator = "Spl_time_after_noise_2")
 
 # plotting
 fig_SMD.H.VCV.H3.P10.P11.Spl.time <- orchaRd::bubble_plot(SMD.H.H3.P10.P11, 
@@ -804,6 +822,9 @@ SMD.H.VCV.H3.P12 <- readRDS("code/models/main_analyses/SMD_H_VCV_H3_P12.rds")
 
 # Results
 summary(SMD.H.VCV.H3.P12,digits=3)
+
+# estimates for big table
+extract_model(SMD.H.VCV.H3.P12, moderator = "Dif_noise_mean")
 
 # plotting
 fig_SMD.H.VCV.H3.P12 <- orchaRd::bubble_plot(SMD.H.VCV.H3.P12, 
@@ -878,6 +899,9 @@ SMD.H.VCV.H4.P13.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H4_P13_No
 
 # Results
 summary(SMD.H.VCV.H4.P13.NoInt,digits=3)
+
+# estimates for big table
+extract_model(SMD.H.VCV.H4.P13.NoInt, moderator = "Noise_type_3")
 
 # plotting
 fig_SMD.H.VCV.H4.P13 <- orchaRd::orchard_plot(SMD.H.VCV.H4.P13, 
@@ -964,6 +988,9 @@ SMD.H.VCV.H4.P14.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H4_P14_No
 # Results
 summary(SMD.H.VCV.H4.P14.NoInt,digits=3)
 
+# estimates for big table
+extract_model(SMD.H.VCV.H4.P14.NoInt, moderator = "Noise_type_4")
+
 # plotting
 fig_SMD.H.VCV.H4.P14 <- orchaRd::orchard_plot(SMD.H.VCV.H4.P14, 
                                               mod = "Noise_type_4", 
@@ -1038,6 +1065,9 @@ SMD.H.VCV.H4.P15.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H4_P15_No
 
 # Results
 summary(SMD.H.VCV.H4.P15.NoInt,digits=3)
+
+# estimates for big table
+extract_model(SMD.H.VCV.H4.P15.NoInt, moderator = "Captive_generation_2")
 
 # plotting
 fig_SMD.H.VCV.H4.P15 <- orchaRd::orchard_plot(SMD.H.VCV.H4.P15, 
@@ -1123,6 +1153,9 @@ SMD.H.VCV.H4.P16.NoInt <- readRDS("code/models/main_analyses/SMD_H_VCV_H4_P16_No
 
 # Results
 summary(SMD.H.VCV.H4.P16.NoInt,digits=3)
+
+# estimates for big table
+extract_model(SMD.H.VCV.H4.P16.NoInt, moderator = "SPLm_pos_2")
 
 # plotting
 fig_SMD.H.VCV.H4.P16 <- orchaRd::orchard_plot(SMD.H.VCV.H4.P16, 
@@ -1630,3 +1663,58 @@ fig_SMD.H.VCV.publication.source
 
 # The amount of heterogeneity explained is: ~X%
 round(r2_ml(SMD.H.VCV.publication.source)*100, 1)[1]
+
+
+################################################################################
+# Model estimates visualisation as table
+################################################################################ 
+
+# Many models into one big table (my function only partially works because it
+# does not fully accommodate continous moderators, but no issue, since this
+# is just for printing results)
+models.1 <- list(
+  Fitness_proxy_level = list(m = SMD.H.VCV.H1.P3.NoInt, mod = "Outcome_level"),
+  Fitness_proxy_category    = list(m = SMD.H.VCV.H1.P5.NoInt, mod = "Outcome_4"),
+  Bird_stage    = list(m = SMD.H.VCV.H2.P7.NoInt, mod = "Bird_age_category"),
+  Time_after_hatching    = list(m = SMD.H.VCV.H2.P8, mod = "Bird_age_2"),
+  Noise_treatment_extent    = list(m = SMD.H.VCV.H3.P9.NoInt, mod = "Broadcast_period_3"),
+  Time_of_exposure    = list(m = SMD.H.H3.P10.P11, mod = "Spl_time_after_noise_2"),
+  Noise_treatment    = list(m = SMD.H.VCV.H3.P12, mod = "Dif_noise_mean")
+)
+
+big_table.1 <- bind_rows(
+  lapply(models.1, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+big_table.1
+
+# Here is the second table (methods / RoB)
+models.2 <- list(
+  Noise_biological_relevance = list(m = SMD.H.VCV.H4.P13.NoInt, mod = "Noise_type_3"),
+  Noise_type    = list(m = SMD.H.VCV.H4.P14.NoInt, mod = "Noise_type_4"),
+  Study_location    = list(m = SMD.H.VCV.H4.P15.NoInt, mod = "Captive_generation_2"),
+  Noise_measuring_position    = list(m = SMD.H.VCV.H4.P16.NoInt, mod = "SPLm_pos_2")
+)
+
+big_table.2 <- bind_rows(
+  lapply(models.2, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+big_table.2
+
+# Here is the third table (publication biases)
+models.3 <- list(
+  Noise_biological_relevance = list(m = SMD.H.VCV.H4.P13.NoInt, mod = "Noise_type_3"),
+  Noise_type    = list(m = SMD.H.VCV.H4.P14.NoInt, mod = "Noise_type_4"),
+  Study_location    = list(m = SMD.H.VCV.H4.P15.NoInt, mod = "Captive_generation_2"),
+)
+
+big_table.3 <- bind_rows(
+  lapply(models.3, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+big_table.3
+
