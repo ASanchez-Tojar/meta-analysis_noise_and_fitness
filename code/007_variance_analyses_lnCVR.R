@@ -48,6 +48,9 @@ sigma2_v <- function(mod){
   return(sigma2_v)
 }
 
+# sourcing the het_interpret() custom function
+source("code/functions.R")
+
 ################################################################################
 # Loading data
 ################################################################################
@@ -346,3 +349,32 @@ fig_lnCVR.VCV.H1.P5
 
 # The amount of heterogeneity explained is: ~X%
 round(r2_ml(lnCVR.VCV.H1.P5)*100, 1)[1]
+
+
+# Many models into one big table (my function only partially works because it
+# does not fully accommodate continous moderators, but no issue, since this
+# is just for printing results)
+models.4.a <- list(
+  Fitness_proxy_level = list(m = lnCVR.VCV.H1.P3, mod = "Outcome_level"),
+  Fitness_proxy_category = list(m = lnCVR.VCV.H1.P5, mod = "Outcome_4")
+)
+
+big_table.4.a <- bind_rows(
+  lapply(models.4.a, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+models.4.b <- list(
+  Fitness_proxy_level = list(m = lnCVR.VCV.H1.P3.NoInt, mod = "Outcome_level"),
+  Fitness_proxy_category = list(m = lnCVR.VCV.H1.P5.NoInt, mod = "Outcome_4")
+)
+
+big_table.4.b <- bind_rows(
+  lapply(models.4.b, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+
+# printing them all at once
+big_table.4.a
+big_table.4.b

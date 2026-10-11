@@ -96,26 +96,26 @@ noise.ES.final.lnRR <- noise.ES.final[!(is.na(noise.ES.final$yi.lnRR.signed)),]
 
 # VCV creation 
 VCV_vi.lnRR <- vcalc(vi = vi.lnRR,
-                      cluster = Study_ID,
-                      obs = ES_ID,
-                      data = noise.ES.final.lnRR,
-                      rho = 0.5)  # assuming that the effect sizes within the same study are correlated with rho = 0.5
+                     cluster = Study_ID,
+                     obs = ES_ID,
+                     data = noise.ES.final.lnRR,
+                     rho = 0.5)  # assuming that the effect sizes within the same study are correlated with rho = 0.5
 
 lnRR.VCV <- rma.mv(yi = yi.lnRR.signed,
-                    V = VCV_vi.lnRR,
-                    mods = ~ 1,
-                    random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                  ~ 1 | Lab_PI_2,
-                                  ~ 1 | Repeated_trait_ID_unique,
-                                  ~ 1 | species.updated,
-                                  ~ 1 | species.updated.new,
-                                  ~ 1 | Study_ID,
-                                  ~ 1 | ES_ID),
-                    method = "REML",
-                    R = list(species.updated.new = phylo_cor_new),
-                    control = list(optimizer="optim"),
-                    test = "t",
-                    data = noise.ES.final.lnRR)
+                   V = VCV_vi.lnRR,
+                   mods = ~ 1,
+                   random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                 ~ 1 | Lab_PI_2,
+                                 ~ 1 | Repeated_trait_ID_unique,
+                                 ~ 1 | species.updated,
+                                 ~ 1 | species.updated.new,
+                                 ~ 1 | Study_ID,
+                                 ~ 1 | ES_ID),
+                   method = "REML",
+                   R = list(species.updated.new = phylo_cor_new),
+                   control = list(optimizer="optim"),
+                   test = "t",
+                   data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV, 
@@ -177,17 +177,17 @@ het_interpret(observed_value = M2_lnRR.VCV[[1]], het_type = "M", es_type = "lnRR
 
 # Plotting this results
 results_lnRR.VCV <- mod_results(lnRR.VCV, 
-                                 mod = "1", 
-                                 at = NULL, group = "Study_ID")
+                                mod = "1", 
+                                at = NULL, group = "Study_ID")
 
 figure_lnRR.VCV <- orchaRd::orchard_plot(results_lnRR.VCV, 
-                                          mod = "1", 
-                                          group = "Study_ID", 
-                                          xlab = "Effect size (lnRR)",
-                                          legend.pos = "none",
-                                          trunk.size = 1.5,
-                                          branch.size = 3,
-                                          twig.size = 1)
+                                         mod = "1", 
+                                         group = "Study_ID", 
+                                         xlab = "Effect size (lnRR)",
+                                         legend.pos = "none",
+                                         trunk.size = 1.5,
+                                         branch.size = 3,
+                                         twig.size = 1)
 
 figure_lnRR.VCV 
 
@@ -215,20 +215,20 @@ table(is.na(noise.ES.final.lnRR$Outcome_level))
 
 # Outcome_level
 lnRR.VCV.H1.P3 <- rma.mv(yi = yi.lnRR.signed,
-                          V = VCV_vi.lnRR,
-                          mods = ~ 1 + Outcome_level,
-                          random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                        ~ 1 | Lab_PI_2,
-                                        ~ 1 | Repeated_trait_ID_unique,
-                                        ~ 1 | species.updated,
-                                        ~ 1 | species.updated.new,
-                                        ~ 1 | Study_ID,
-                                        ~ 1 | ES_ID),
-                          method = "REML",
-                          R = list(species.updated.new = phylo_cor_new),
-                          control = list(optimizer="optim"),
-                          test = "t",
-                          data = noise.ES.final.lnRR)
+                         V = VCV_vi.lnRR,
+                         mods = ~ 1 + Outcome_level,
+                         random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                       ~ 1 | Lab_PI_2,
+                                       ~ 1 | Repeated_trait_ID_unique,
+                                       ~ 1 | species.updated,
+                                       ~ 1 | species.updated.new,
+                                       ~ 1 | Study_ID,
+                                       ~ 1 | ES_ID),
+                         method = "REML",
+                         R = list(species.updated.new = phylo_cor_new),
+                         control = list(optimizer="optim"),
+                         test = "t",
+                         data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H1.P3, 
@@ -242,20 +242,20 @@ summary(lnRR.VCV.H1.P3,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H1.P3.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                V = VCV_vi.lnRR,
-                                mods = ~ -1 + Outcome_level,
-                                random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                              ~ 1 | Lab_PI_2,
-                                              ~ 1 | Repeated_trait_ID_unique,
-                                              ~ 1 | species.updated,
-                                              ~ 1 | species.updated.new,
-                                              ~ 1 | Study_ID,
-                                              ~ 1 | ES_ID),
-                                method = "REML",
-                                R = list(species.updated.new = phylo_cor_new),
-                                control = list(optimizer="optim"),
-                                test = "t",
-                                data = noise.ES.final.lnRR)
+                               V = VCV_vi.lnRR,
+                               mods = ~ -1 + Outcome_level,
+                               random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                             ~ 1 | Lab_PI_2,
+                                             ~ 1 | Repeated_trait_ID_unique,
+                                             ~ 1 | species.updated,
+                                             ~ 1 | species.updated.new,
+                                             ~ 1 | Study_ID,
+                                             ~ 1 | ES_ID),
+                               method = "REML",
+                               R = list(species.updated.new = phylo_cor_new),
+                               control = list(optimizer="optim"),
+                               test = "t",
+                               data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H1.P3.NoInt, 
@@ -269,12 +269,12 @@ summary(lnRR.VCV.H1.P3.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.H1.P3 <- orchaRd::orchard_plot(lnRR.VCV.H1.P3, 
-                                             mod = "Outcome_level", 
-                                             group = "Study_ID", 
-                                             xlab = "Effect size (lnRR)",
-                                             trunk.size = 2,
-                                             branch.size = 3,
-                                             twig.size = 1)
+                                            mod = "Outcome_level", 
+                                            group = "Study_ID", 
+                                            xlab = "Effect size (lnRR)",
+                                            trunk.size = 2,
+                                            branch.size = 3,
+                                            twig.size = 1)
 
 fig_lnRR.VCV.H1.P3
 
@@ -290,20 +290,20 @@ table(is.na(noise.ES.final.lnRR$Outcome_4))
 
 # Outcome_4
 lnRR.VCV.H1.P5 <- rma.mv(yi = yi.lnRR.signed,
-                          V = VCV_vi.lnRR,
-                          mods = ~ 1 + Outcome_4,
-                          random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                        ~ 1 | Lab_PI_2,
-                                        ~ 1 | Repeated_trait_ID_unique,
-                                        ~ 1 | species.updated,
-                                        ~ 1 | species.updated.new,
-                                        ~ 1 | Study_ID,
-                                        ~ 1 | ES_ID),
-                          method = "REML",
-                          R = list(species.updated.new = phylo_cor_new),
-                          control = list(optimizer="optim"),
-                          test = "t",
-                          data = noise.ES.final.lnRR)
+                         V = VCV_vi.lnRR,
+                         mods = ~ 1 + Outcome_4,
+                         random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                       ~ 1 | Lab_PI_2,
+                                       ~ 1 | Repeated_trait_ID_unique,
+                                       ~ 1 | species.updated,
+                                       ~ 1 | species.updated.new,
+                                       ~ 1 | Study_ID,
+                                       ~ 1 | ES_ID),
+                         method = "REML",
+                         R = list(species.updated.new = phylo_cor_new),
+                         control = list(optimizer="optim"),
+                         test = "t",
+                         data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H1.P5, 
@@ -317,20 +317,20 @@ summary(lnRR.VCV.H1.P5,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H1.P5.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                V = VCV_vi.lnRR,
-                                mods = ~ -1 + Outcome_4,
-                                random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                              ~ 1 | Lab_PI_2,
-                                              ~ 1 | Repeated_trait_ID_unique,
-                                              ~ 1 | species.updated,
-                                              ~ 1 | species.updated.new,
-                                              ~ 1 | Study_ID,
-                                              ~ 1 | ES_ID),
-                                method = "REML",
-                                R = list(species.updated.new = phylo_cor_new),
-                                control = list(optimizer="optim"),
-                                test = "t",
-                                data = noise.ES.final.lnRR)
+                               V = VCV_vi.lnRR,
+                               mods = ~ -1 + Outcome_4,
+                               random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                             ~ 1 | Lab_PI_2,
+                                             ~ 1 | Repeated_trait_ID_unique,
+                                             ~ 1 | species.updated,
+                                             ~ 1 | species.updated.new,
+                                             ~ 1 | Study_ID,
+                                             ~ 1 | ES_ID),
+                               method = "REML",
+                               R = list(species.updated.new = phylo_cor_new),
+                               control = list(optimizer="optim"),
+                               test = "t",
+                               data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H1.P5.NoInt, 
@@ -344,12 +344,12 @@ summary(lnRR.VCV.H1.P5.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.H1.P5 <- orchaRd::orchard_plot(lnRR.VCV.H1.P5, 
-                                             mod = "Outcome_4", 
-                                             group = "Study_ID", 
-                                             xlab = "Effect size (lnRR)",
-                                             trunk.size = 2,
-                                             branch.size = 3,
-                                             twig.size = 1)
+                                            mod = "Outcome_4", 
+                                            group = "Study_ID", 
+                                            xlab = "Effect size (lnRR)",
+                                            trunk.size = 2,
+                                            branch.size = 3,
+                                            twig.size = 1)
 
 fig_lnRR.VCV.H1.P5
 
@@ -366,20 +366,20 @@ table(is.na(noise.ES.final.lnRR$Bird_age_category))
 
 # Bird_age_category
 lnRR.VCV.H2.P7 <- rma.mv(yi = yi.lnRR.signed,
-                          V = VCV_vi.lnRR,
-                          mods = ~ 1 + Bird_age_category,
-                          random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                        ~ 1 | Lab_PI_2,
-                                        ~ 1 | Repeated_trait_ID_unique,
-                                        ~ 1 | species.updated,
-                                        ~ 1 | species.updated.new,
-                                        ~ 1 | Study_ID,
-                                        ~ 1 | ES_ID),
-                          method = "REML",
-                          R = list(species.updated.new = phylo_cor_new),
-                          control = list(optimizer="optim"),
-                          test = "t",
-                          data = noise.ES.final.lnRR)
+                         V = VCV_vi.lnRR,
+                         mods = ~ 1 + Bird_age_category,
+                         random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                       ~ 1 | Lab_PI_2,
+                                       ~ 1 | Repeated_trait_ID_unique,
+                                       ~ 1 | species.updated,
+                                       ~ 1 | species.updated.new,
+                                       ~ 1 | Study_ID,
+                                       ~ 1 | ES_ID),
+                         method = "REML",
+                         R = list(species.updated.new = phylo_cor_new),
+                         control = list(optimizer="optim"),
+                         test = "t",
+                         data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H2.P7, 
@@ -393,20 +393,20 @@ summary(lnRR.VCV.H2.P7,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H2.P7.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                V = VCV_vi.lnRR,
-                                mods = ~ -1 + Bird_age_category,
-                                random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                              ~ 1 | Lab_PI_2,
-                                              ~ 1 | Repeated_trait_ID_unique,
-                                              ~ 1 | species.updated,
-                                              ~ 1 | species.updated.new,
-                                              ~ 1 | Study_ID,
-                                              ~ 1 | ES_ID),
-                                method = "REML",
-                                R = list(species.updated.new = phylo_cor_new),
-                                control = list(optimizer="optim"),
-                                test = "t",
-                                data = noise.ES.final.lnRR)
+                               V = VCV_vi.lnRR,
+                               mods = ~ -1 + Bird_age_category,
+                               random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                             ~ 1 | Lab_PI_2,
+                                             ~ 1 | Repeated_trait_ID_unique,
+                                             ~ 1 | species.updated,
+                                             ~ 1 | species.updated.new,
+                                             ~ 1 | Study_ID,
+                                             ~ 1 | ES_ID),
+                               method = "REML",
+                               R = list(species.updated.new = phylo_cor_new),
+                               control = list(optimizer="optim"),
+                               test = "t",
+                               data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H2.P7.NoInt, 
@@ -420,12 +420,12 @@ summary(lnRR.VCV.H2.P7.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.H2.P7 <- orchaRd::orchard_plot(lnRR.VCV.H2.P7, 
-                                             mod = "Bird_age_category", 
-                                             group = "Study_ID", 
-                                             xlab = "Effect size (lnRR)",
-                                             trunk.size = 2,
-                                             branch.size = 3,
-                                             twig.size = 1)
+                                            mod = "Bird_age_category", 
+                                            group = "Study_ID", 
+                                            xlab = "Effect size (lnRR)",
+                                            trunk.size = 2,
+                                            branch.size = 3,
+                                            twig.size = 1)
 
 fig_lnRR.VCV.H2.P7
 
@@ -444,27 +444,27 @@ noise.ES.final.lnRR.H2.P8 <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR$Bir
 
 # VCV creation
 VCV_vi.lnRR.H2.P8  <- vcalc(vi = vi.lnRR,
-                             cluster = Study_ID,
-                             obs = ES_ID,
-                             data = noise.ES.final.lnRR.H2.P8,
-                             rho = 0.5)
+                            cluster = Study_ID,
+                            obs = ES_ID,
+                            data = noise.ES.final.lnRR.H2.P8,
+                            rho = 0.5)
 
 # Bird_age_2
 lnRR.VCV.H2.P8 <- rma.mv(yi = yi.lnRR.signed,
-                          V = VCV_vi.lnRR.H2.P8,
-                          mods = ~ 1 + Bird_age_2,
-                          random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                        ~ 1 | Lab_PI_2,
-                                        ~ 1 | Repeated_trait_ID_unique,
-                                        ~ 1 | species.updated,
-                                        ~ 1 | species.updated.new,
-                                        ~ 1 | Study_ID,
-                                        ~ 1 | ES_ID),
-                          method = "REML",
-                          R = list(species.updated.new = phylo_cor_new),
-                          control = list(optimizer="optim"),
-                          test = "t",
-                          data = noise.ES.final.lnRR.H2.P8)
+                         V = VCV_vi.lnRR.H2.P8,
+                         mods = ~ 1 + Bird_age_2,
+                         random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                       ~ 1 | Lab_PI_2,
+                                       ~ 1 | Repeated_trait_ID_unique,
+                                       ~ 1 | species.updated,
+                                       ~ 1 | species.updated.new,
+                                       ~ 1 | Study_ID,
+                                       ~ 1 | ES_ID),
+                         method = "REML",
+                         R = list(species.updated.new = phylo_cor_new),
+                         control = list(optimizer="optim"),
+                         test = "t",
+                         data = noise.ES.final.lnRR.H2.P8)
 
 # Saving model
 saveRDS(lnRR.VCV.H2.P8, 
@@ -478,11 +478,11 @@ summary(lnRR.VCV.H2.P8,digits=3)
 
 # plotting
 fig_lnRR.VCV.H2.P8 <- orchaRd::bubble_plot(lnRR.VCV.H2.P8, 
-                                            mod = "Bird_age_2", 
-                                            group = "Study_ID",
-                                            ylab = "Effect size (lnRR)",
-                                            xlab = "Bird age (days)",
-                                            legend.pos = "bottom.right")
+                                           mod = "Bird_age_2", 
+                                           group = "Study_ID",
+                                           ylab = "Effect size (lnRR)",
+                                           xlab = "Bird age (days)",
+                                           legend.pos = "bottom.right")
 
 fig_lnRR.VCV.H2.P8
 
@@ -502,27 +502,27 @@ noise.ES.final.lnRR.H3.P9 <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR$Bro
 
 # VCV creation
 VCV_vi.lnRR.H3.P9  <- vcalc(vi = vi.lnRR,
-                             cluster = Study_ID,
-                             obs = ES_ID,
-                             data = noise.ES.final.lnRR.H3.P9,
-                             rho = 0.5)
+                            cluster = Study_ID,
+                            obs = ES_ID,
+                            data = noise.ES.final.lnRR.H3.P9,
+                            rho = 0.5)
 
 # Broadcast_period_3
 lnRR.VCV.H3.P9 <- rma.mv(yi = yi.lnRR.signed,
-                          V = VCV_vi.lnRR.H3.P9,
-                          mods = ~ 1 + Broadcast_period_3,
-                          random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                        ~ 1 | Lab_PI_2,
-                                        ~ 1 | Repeated_trait_ID_unique,
-                                        ~ 1 | species.updated,
-                                        ~ 1 | species.updated.new,
-                                        ~ 1 | Study_ID,
-                                        ~ 1 | ES_ID),
-                          method = "REML",
-                          R = list(species.updated.new = phylo_cor_new),
-                          control = list(optimizer="optim"),
-                          test = "t",
-                          data = noise.ES.final.lnRR.H3.P9)
+                         V = VCV_vi.lnRR.H3.P9,
+                         mods = ~ 1 + Broadcast_period_3,
+                         random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                       ~ 1 | Lab_PI_2,
+                                       ~ 1 | Repeated_trait_ID_unique,
+                                       ~ 1 | species.updated,
+                                       ~ 1 | species.updated.new,
+                                       ~ 1 | Study_ID,
+                                       ~ 1 | ES_ID),
+                         method = "REML",
+                         R = list(species.updated.new = phylo_cor_new),
+                         control = list(optimizer="optim"),
+                         test = "t",
+                         data = noise.ES.final.lnRR.H3.P9)
 
 # Saving model
 saveRDS(lnRR.VCV.H3.P9, 
@@ -536,20 +536,20 @@ summary(lnRR.VCV.H3.P9,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H3.P9.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                V = VCV_vi.lnRR.H3.P9,
-                                mods = ~ -1 + Broadcast_period_3,
-                                random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                              ~ 1 | Lab_PI_2,
-                                              ~ 1 | Repeated_trait_ID_unique,
-                                              ~ 1 | species.updated,
-                                              ~ 1 | species.updated.new,
-                                              ~ 1 | Study_ID,
-                                              ~ 1 | ES_ID),
-                                method = "REML",
-                                R = list(species.updated.new = phylo_cor_new),
-                                control = list(optimizer="optim"),
-                                test = "t",
-                                data = noise.ES.final.lnRR.H3.P9)
+                               V = VCV_vi.lnRR.H3.P9,
+                               mods = ~ -1 + Broadcast_period_3,
+                               random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                             ~ 1 | Lab_PI_2,
+                                             ~ 1 | Repeated_trait_ID_unique,
+                                             ~ 1 | species.updated,
+                                             ~ 1 | species.updated.new,
+                                             ~ 1 | Study_ID,
+                                             ~ 1 | ES_ID),
+                               method = "REML",
+                               R = list(species.updated.new = phylo_cor_new),
+                               control = list(optimizer="optim"),
+                               test = "t",
+                               data = noise.ES.final.lnRR.H3.P9)
 
 # Saving model
 saveRDS(lnRR.VCV.H3.P9.NoInt, 
@@ -563,12 +563,12 @@ summary(lnRR.VCV.H3.P9.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.H3.P9 <- orchaRd::orchard_plot(lnRR.VCV.H3.P9, 
-                                             mod = "Broadcast_period_3", 
-                                             group = "Study_ID", 
-                                             xlab = "Effect size (lnRR)",
-                                             trunk.size = 2,
-                                             branch.size = 3,
-                                             twig.size = 1)
+                                            mod = "Broadcast_period_3", 
+                                            group = "Study_ID", 
+                                            xlab = "Effect size (lnRR)",
+                                            trunk.size = 2,
+                                            branch.size = 3,
+                                            twig.size = 1)
 
 fig_lnRR.VCV.H3.P9
 
@@ -589,31 +589,31 @@ table(!(is.na(noise.ES.final.lnRR$Spl_time_after_noise_2)) &
 
 # subsetting the dataset to the lnRR available data
 noise.ES.final.lnRR.H3.P10.P11 <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR$Spl_time_after_noise_2)) & 
-                                                          !(is.na(noise.ES.final.lnRR$Expe_noise_mean_2)),]
+                                                        !(is.na(noise.ES.final.lnRR$Expe_noise_mean_2)),]
 
 # VCV creation
 VCV_vi.lnRR.H3.P10.P11  <- vcalc(vi = vi.lnRR,
-                                  cluster = Study_ID,
-                                  obs = ES_ID,
-                                  data = noise.ES.final.lnRR.H3.P10.P11,
-                                  rho = 0.5)
+                                 cluster = Study_ID,
+                                 obs = ES_ID,
+                                 data = noise.ES.final.lnRR.H3.P10.P11,
+                                 rho = 0.5)
 
 # Spl_time_after_noise_2 & Expe_noise_mean_2
 lnRR.H3.P10.P11 <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR.H3.P10.P11,
-                           mods = ~ 1 + Spl_time_after_noise_2*Expe_noise_mean_2,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR.H3.P10.P11)
+                          V = VCV_vi.lnRR.H3.P10.P11,
+                          mods = ~ 1 + Spl_time_after_noise_2*Expe_noise_mean_2,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR.H3.P10.P11)
 
 # Saving model
 saveRDS(lnRR.H3.P10.P11, 
@@ -627,20 +627,20 @@ summary(lnRR.H3.P10.P11,digits=3)
 
 # plotting
 fig_lnRR.VCV.H3.P10.P11.Spl.time <- orchaRd::bubble_plot(lnRR.H3.P10.P11, 
-                                                          mod = "Spl_time_after_noise_2", 
-                                                          group = "Study_ID",
-                                                          ylab = "Effect size (lnRR)",
-                                                          xlab = "Spl time after noise",
-                                                          legend.pos = "bottom.right")
+                                                         mod = "Spl_time_after_noise_2", 
+                                                         group = "Study_ID",
+                                                         ylab = "Effect size (lnRR)",
+                                                         xlab = "Spl time after noise",
+                                                         legend.pos = "bottom.right")
 
 fig_lnRR.VCV.H3.P10.P11.Spl.time
 
 fig_lnRR.VCV.H3.P10.P11.noise <- orchaRd::bubble_plot(lnRR.H3.P10.P11, 
-                                                       mod = "Expe_noise_mean_2", 
-                                                       group = "Study_ID",
-                                                       ylab = "Effect size (lnRR)",
-                                                       xlab = "Experimental mean noise level (dB)",
-                                                       legend.pos = "bottom.right")
+                                                      mod = "Expe_noise_mean_2", 
+                                                      group = "Study_ID",
+                                                      ylab = "Effect size (lnRR)",
+                                                      xlab = "Experimental mean noise level (dB)",
+                                                      legend.pos = "bottom.right")
 
 fig_lnRR.VCV.H3.P10.P11.noise
 
@@ -659,27 +659,27 @@ noise.ES.final.lnRR.H3.P12 <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR$Di
 
 # VCV creation
 VCV_vi.lnRR.H3.P12  <- vcalc(vi = vi.lnRR,
-                              cluster = Study_ID,
-                              obs = ES_ID,
-                              data = noise.ES.final.lnRR.H3.P12,
-                              rho = 0.5)
+                             cluster = Study_ID,
+                             obs = ES_ID,
+                             data = noise.ES.final.lnRR.H3.P12,
+                             rho = 0.5)
 
 # Dif_noise_mean
 lnRR.VCV.H3.P12 <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR.H3.P12,
-                           mods = ~ 1 + Dif_noise_mean,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR.H3.P12)
+                          V = VCV_vi.lnRR.H3.P12,
+                          mods = ~ 1 + Dif_noise_mean,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR.H3.P12)
 
 # Saving model
 saveRDS(lnRR.VCV.H3.P12, 
@@ -693,11 +693,11 @@ summary(lnRR.VCV.H3.P12,digits=3)
 
 # plotting
 fig_lnRR.VCV.H3.P12 <- orchaRd::bubble_plot(lnRR.VCV.H3.P12, 
-                                             mod = "Dif_noise_mean", 
-                                             group = "Study_ID",
-                                             ylab = "Effect size (lnRR)",
-                                             xlab = "Difference in mean noise between groups (dB)",
-                                             legend.pos = "bottom.right")
+                                            mod = "Dif_noise_mean", 
+                                            group = "Study_ID",
+                                            ylab = "Effect size (lnRR)",
+                                            xlab = "Difference in mean noise between groups (dB)",
+                                            legend.pos = "bottom.right")
 
 fig_lnRR.VCV.H3.P12
 
@@ -713,20 +713,20 @@ table(is.na(noise.ES.final.lnRR$Noise_type_3))
 
 # Noise_type_3
 lnRR.VCV.H4.P13 <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR,
-                           mods = ~ 1 + Noise_type_3,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR)
+                          V = VCV_vi.lnRR,
+                          mods = ~ 1 + Noise_type_3,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H4.P13, 
@@ -740,20 +740,20 @@ summary(lnRR.VCV.H4.P13,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H4.P13.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                 V = VCV_vi.lnRR,
-                                 mods = ~ -1 + Noise_type_3,
-                                 random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                               ~ 1 | Lab_PI_2,
-                                               ~ 1 | Repeated_trait_ID_unique,
-                                               ~ 1 | species.updated,
-                                               ~ 1 | species.updated.new,
-                                               ~ 1 | Study_ID,
-                                               ~ 1 | ES_ID),
-                                 method = "REML",
-                                 R = list(species.updated.new = phylo_cor_new),
-                                 control = list(optimizer="optim"),
-                                 test = "t",
-                                 data = noise.ES.final.lnRR)
+                                V = VCV_vi.lnRR,
+                                mods = ~ -1 + Noise_type_3,
+                                random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                              ~ 1 | Lab_PI_2,
+                                              ~ 1 | Repeated_trait_ID_unique,
+                                              ~ 1 | species.updated,
+                                              ~ 1 | species.updated.new,
+                                              ~ 1 | Study_ID,
+                                              ~ 1 | ES_ID),
+                                method = "REML",
+                                R = list(species.updated.new = phylo_cor_new),
+                                control = list(optimizer="optim"),
+                                test = "t",
+                                data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H4.P13.NoInt, 
@@ -767,12 +767,12 @@ summary(lnRR.VCV.H4.P13.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.H4.P13 <- orchaRd::orchard_plot(lnRR.VCV.H4.P13, 
-                                              mod = "Noise_type_3", 
-                                              group = "Study_ID", 
-                                              xlab = "Effect size (lnRR)",
-                                              trunk.size = 2,
-                                              branch.size = 3,
-                                              twig.size = 1)
+                                             mod = "Noise_type_3", 
+                                             group = "Study_ID", 
+                                             xlab = "Effect size (lnRR)",
+                                             trunk.size = 2,
+                                             branch.size = 3,
+                                             twig.size = 1)
 
 fig_lnRR.VCV.H4.P13
 
@@ -791,27 +791,27 @@ noise.ES.final.lnRR.H4.P14 <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR$No
 
 # VCV creation
 VCV_vi.lnRR.H4.P14  <- vcalc(vi = vi.lnRR,
-                              cluster = Study_ID,
-                              obs = ES_ID,
-                              data = noise.ES.final.lnRR.H4.P14,
-                              rho = 0.5)
+                             cluster = Study_ID,
+                             obs = ES_ID,
+                             data = noise.ES.final.lnRR.H4.P14,
+                             rho = 0.5)
 
 # Noise_type_4
 lnRR.VCV.H4.P14 <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR.H4.P14,
-                           mods = ~ 1 + Noise_type_4,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR.H4.P14)
+                          V = VCV_vi.lnRR.H4.P14,
+                          mods = ~ 1 + Noise_type_4,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR.H4.P14)
 
 # Saving model
 saveRDS(lnRR.VCV.H4.P14, 
@@ -825,20 +825,20 @@ summary(lnRR.VCV.H4.P14,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H4.P14.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                 V = VCV_vi.lnRR.H4.P14,
-                                 mods = ~ -1 + Noise_type_4,
-                                 random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                               ~ 1 | Lab_PI_2,
-                                               ~ 1 | Repeated_trait_ID_unique,
-                                               ~ 1 | species.updated,
-                                               ~ 1 | species.updated.new,
-                                               ~ 1 | Study_ID,
-                                               ~ 1 | ES_ID),
-                                 method = "REML",
-                                 R = list(species.updated.new = phylo_cor_new),
-                                 control = list(optimizer="optim"),
-                                 test = "t",
-                                 data = noise.ES.final.lnRR.H4.P14)
+                                V = VCV_vi.lnRR.H4.P14,
+                                mods = ~ -1 + Noise_type_4,
+                                random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                              ~ 1 | Lab_PI_2,
+                                              ~ 1 | Repeated_trait_ID_unique,
+                                              ~ 1 | species.updated,
+                                              ~ 1 | species.updated.new,
+                                              ~ 1 | Study_ID,
+                                              ~ 1 | ES_ID),
+                                method = "REML",
+                                R = list(species.updated.new = phylo_cor_new),
+                                control = list(optimizer="optim"),
+                                test = "t",
+                                data = noise.ES.final.lnRR.H4.P14)
 
 # Saving model
 saveRDS(lnRR.VCV.H4.P14.NoInt, 
@@ -852,12 +852,12 @@ summary(lnRR.VCV.H4.P14.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.H4.P14 <- orchaRd::orchard_plot(lnRR.VCV.H4.P14, 
-                                              mod = "Noise_type_4", 
-                                              group = "Study_ID", 
-                                              xlab = "Effect size (lnRR)",
-                                              trunk.size = 2,
-                                              branch.size = 3,
-                                              twig.size = 1)
+                                             mod = "Noise_type_4", 
+                                             group = "Study_ID", 
+                                             xlab = "Effect size (lnRR)",
+                                             trunk.size = 2,
+                                             branch.size = 3,
+                                             twig.size = 1)
 
 fig_lnRR.VCV.H4.P14
 
@@ -873,20 +873,20 @@ table(is.na(noise.ES.final.lnRR$Captive_generation_2))
 
 # Captive_generation_2
 lnRR.VCV.H4.P15 <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR,
-                           mods = ~ 1 + Captive_generation_2,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR)
+                          V = VCV_vi.lnRR,
+                          mods = ~ 1 + Captive_generation_2,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H4.P15, 
@@ -900,20 +900,20 @@ summary(lnRR.VCV.H4.P15,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H4.P15.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                 V = VCV_vi.lnRR,
-                                 mods = ~ -1 + Captive_generation_2,
-                                 random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                               ~ 1 | Lab_PI_2,
-                                               ~ 1 | Repeated_trait_ID_unique,
-                                               ~ 1 | species.updated,
-                                               ~ 1 | species.updated.new,
-                                               ~ 1 | Study_ID,
-                                               ~ 1 | ES_ID),
-                                 method = "REML",
-                                 R = list(species.updated.new = phylo_cor_new),
-                                 control = list(optimizer="optim"),
-                                 test = "t",
-                                 data = noise.ES.final.lnRR)
+                                V = VCV_vi.lnRR,
+                                mods = ~ -1 + Captive_generation_2,
+                                random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                              ~ 1 | Lab_PI_2,
+                                              ~ 1 | Repeated_trait_ID_unique,
+                                              ~ 1 | species.updated,
+                                              ~ 1 | species.updated.new,
+                                              ~ 1 | Study_ID,
+                                              ~ 1 | ES_ID),
+                                method = "REML",
+                                R = list(species.updated.new = phylo_cor_new),
+                                control = list(optimizer="optim"),
+                                test = "t",
+                                data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H4.P15.NoInt, 
@@ -927,12 +927,12 @@ summary(lnRR.VCV.H4.P15.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.H4.P15 <- orchaRd::orchard_plot(lnRR.VCV.H4.P15, 
-                                              mod = "Captive_generation_2", 
-                                              group = "Study_ID", 
-                                              xlab = "Effect size (lnRR)",
-                                              trunk.size = 2,
-                                              branch.size = 3,
-                                              twig.size = 1)
+                                             mod = "Captive_generation_2", 
+                                             group = "Study_ID", 
+                                             xlab = "Effect size (lnRR)",
+                                             trunk.size = 2,
+                                             branch.size = 3,
+                                             twig.size = 1)
 
 fig_lnRR.VCV.H4.P15
 
@@ -951,27 +951,27 @@ noise.ES.final.lnRR.H4.P16 <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR$SP
 
 # VCV creation
 VCV_vi.lnRR.H4.P16  <- vcalc(vi = vi.lnRR,
-                              cluster = Study_ID,
-                              obs = ES_ID,
-                              data = noise.ES.final.lnRR.H4.P16,
-                              rho = 0.5)
+                             cluster = Study_ID,
+                             obs = ES_ID,
+                             data = noise.ES.final.lnRR.H4.P16,
+                             rho = 0.5)
 
 # SPLm_pos_2
 lnRR.VCV.H4.P16 <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR.H4.P16,
-                           mods = ~ 1 + SPLm_pos_2,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR.H4.P16)
+                          V = VCV_vi.lnRR.H4.P16,
+                          mods = ~ 1 + SPLm_pos_2,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR.H4.P16)
 
 # Saving model
 saveRDS(lnRR.VCV.H4.P16, 
@@ -985,20 +985,20 @@ summary(lnRR.VCV.H4.P16,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H4.P16.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                 V = VCV_vi.lnRR.H4.P16,
-                                 mods = ~ -1 + SPLm_pos_2,
-                                 random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                               ~ 1 | Lab_PI_2,
-                                               ~ 1 | Repeated_trait_ID_unique,
-                                               ~ 1 | species.updated,
-                                               ~ 1 | species.updated.new,
-                                               ~ 1 | Study_ID,
-                                               ~ 1 | ES_ID),
-                                 method = "REML",
-                                 R = list(species.updated.new = phylo_cor_new),
-                                 control = list(optimizer="optim"),
-                                 test = "t",
-                                 data = noise.ES.final.lnRR.H4.P16)
+                                V = VCV_vi.lnRR.H4.P16,
+                                mods = ~ -1 + SPLm_pos_2,
+                                random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                              ~ 1 | Lab_PI_2,
+                                              ~ 1 | Repeated_trait_ID_unique,
+                                              ~ 1 | species.updated,
+                                              ~ 1 | species.updated.new,
+                                              ~ 1 | Study_ID,
+                                              ~ 1 | ES_ID),
+                                method = "REML",
+                                R = list(species.updated.new = phylo_cor_new),
+                                control = list(optimizer="optim"),
+                                test = "t",
+                                data = noise.ES.final.lnRR.H4.P16)
 
 # Saving model
 saveRDS(lnRR.VCV.H4.P16.NoInt, 
@@ -1012,12 +1012,12 @@ summary(lnRR.VCV.H4.P16.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.H4.P16 <- orchaRd::orchard_plot(lnRR.VCV.H4.P16, 
-                                              mod = "SPLm_pos_2", 
-                                              group = "Study_ID", 
-                                              xlab = "Effect size (lnRR)",
-                                              trunk.size = 2,
-                                              branch.size = 3,
-                                              twig.size = 1)
+                                             mod = "SPLm_pos_2", 
+                                             group = "Study_ID", 
+                                             xlab = "Effect size (lnRR)",
+                                             trunk.size = 2,
+                                             branch.size = 3,
+                                             twig.size = 1)
 
 fig_lnRR.VCV.H4.P16
 
@@ -1042,8 +1042,8 @@ summary(noise.ES.final.lnRR$sqrt_inv_eff_N)
 # since the gradients have a sample size that is considered as balance here
 # we can simply use the square root of the its inverse
 noise.ES.final.lnRR$sqrt_inv_eff_N <- ifelse(is.na(noise.ES.final.lnRR$sqrt_inv_eff_N),
-                                              sqrt(1/noise.ES.final.lnRR$N_final_total_adj),
-                                              noise.ES.final.lnRR$sqrt_inv_eff_N)
+                                             sqrt(1/noise.ES.final.lnRR$N_final_total_adj),
+                                             noise.ES.final.lnRR$sqrt_inv_eff_N)
 
 table(is.na(noise.ES.final.lnRR$sqrt_inv_eff_N))
 summary(noise.ES.final.lnRR$sqrt_inv_eff_N)
@@ -1051,20 +1051,20 @@ summary(noise.ES.final.lnRR$sqrt_inv_eff_N)
 
 # sqrt_inv_eff_N
 lnRR.VCV.H5.P17 <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR,
-                           mods = ~ 1 + sqrt_inv_eff_N,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR)
+                          V = VCV_vi.lnRR,
+                          mods = ~ 1 + sqrt_inv_eff_N,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H5.P17, 
@@ -1078,11 +1078,11 @@ summary(lnRR.VCV.H5.P17,digits=3)
 
 # plotting
 fig_lnRR.VCV.H5.P17 <- orchaRd::bubble_plot(lnRR.VCV.H5.P17, 
-                                             mod = "sqrt_inv_eff_N", 
-                                             group = "Study_ID",
-                                             ylab = "Effect size (lnRR)",
-                                             xlab = "Square root of the inverse of effective sample size",
-                                             legend.pos = "bottom.right")
+                                            mod = "sqrt_inv_eff_N", 
+                                            group = "Study_ID",
+                                            ylab = "Effect size (lnRR)",
+                                            xlab = "Square root of the inverse of effective sample size",
+                                            legend.pos = "bottom.right")
 
 fig_lnRR.VCV.H5.P17
 
@@ -1101,20 +1101,20 @@ noise.ES.final.lnRR$Year_c <- noise.ES.final.lnRR$Year - mean(noise.ES.final.lnR
 
 # Year_c
 lnRR.VCV.H5.P18 <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR,
-                           mods = ~ 1 + Year_c,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR)
+                          V = VCV_vi.lnRR,
+                          mods = ~ 1 + Year_c,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H5.P18, 
@@ -1128,11 +1128,11 @@ summary(lnRR.VCV.H5.P18,digits=3)
 
 # plotting
 fig_lnRR.VCV.H5.P18 <- orchaRd::bubble_plot(lnRR.VCV.H5.P18, 
-                                             mod = "Year_c", 
-                                             group = "Study_ID",
-                                             ylab = "Effect size (lnRR)",
-                                             xlab = "Year of publication (mean-centred)",
-                                             legend.pos = "bottom.right")
+                                            mod = "Year_c", 
+                                            group = "Study_ID",
+                                            ylab = "Effect size (lnRR)",
+                                            xlab = "Year of publication (mean-centred)",
+                                            legend.pos = "bottom.right")
 
 fig_lnRR.VCV.H5.P18
 
@@ -1144,11 +1144,11 @@ round(r2_ml(lnRR.VCV.H5.P18)*100, 1)[1]
 ################################################################################
 
 # checking the size of this subset by checking NA's: if different, new VCV
-table(is.na(noise.ES.final.SMD.H$data_reporting))
+table(is.na(noise.ES.final.lnRR$data_reporting))
 
 # data_reporting
 lnRR.VCV.H5.P19 <- rma.mv(yi = yi.lnRR.signed,
-                          V = VCV_vi.SMD.H,
+                          V = VCV_vi.lnRR,
                           mods = ~ 1 + data_reporting,
                           random = list(~ 1 | Shared_Ctrl_ID_unique,
                                         ~ 1 | Lab_PI_2,
@@ -1161,7 +1161,7 @@ lnRR.VCV.H5.P19 <- rma.mv(yi = yi.lnRR.signed,
                           R = list(species.updated.new = phylo_cor_new),
                           control = list(optimizer="optim"),
                           test = "t",
-                          data = noise.ES.final.SMD.H)
+                          data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H5.P19, 
@@ -1175,7 +1175,7 @@ summary(lnRR.VCV.H5.P19,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.H5.P19.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                V = VCV_vi.SMD.H,
+                                V = VCV_vi.lnRR,
                                 mods = ~ -1 + data_reporting,
                                 random = list(~ 1 | Shared_Ctrl_ID_unique,
                                               ~ 1 | Lab_PI_2,
@@ -1188,7 +1188,7 @@ lnRR.VCV.H5.P19.NoInt <- rma.mv(yi = yi.lnRR.signed,
                                 R = list(species.updated.new = phylo_cor_new),
                                 control = list(optimizer="optim"),
                                 test = "t",
-                                data = noise.ES.final.SMD.H)
+                                data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.H5.P19.NoInt, 
@@ -1231,27 +1231,27 @@ round(r2_ml(lnRR.VCV.H5.P19)*100, 1)[1]
 # there is Warning message: Redundant predictors dropped from the model.
 
 lnRR.VCV.all.in <- rma.mv(yi = yi.lnRR.signed,
-                           V = VCV_vi.lnRR,
-                           mods = ~ 1 + 
-                             sqrt_inv_eff_N +
-                             Year_c +
-                             Outcome_level + 
-                             Outcome_4 + 
-                             Bird_age_category + 
-                             Noise_type_3 + 
-                             Captive_generation_2,
-                           random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                         ~ 1 | Lab_PI_2,
-                                         ~ 1 | Repeated_trait_ID_unique,
-                                         ~ 1 | species.updated,
-                                         ~ 1 | species.updated.new,
-                                         ~ 1 | Study_ID,
-                                         ~ 1 | ES_ID),
-                           method = "REML",
-                           R = list(species.updated.new = phylo_cor_new),
-                           control = list(optimizer="optim"),
-                           test = "t",
-                           data = noise.ES.final.lnRR)
+                          V = VCV_vi.lnRR,
+                          mods = ~ 1 + 
+                            sqrt_inv_eff_N +
+                            Year_c +
+                            Outcome_level + 
+                            Outcome_4 + 
+                            Bird_age_category + 
+                            Noise_type_3 + 
+                            Captive_generation_2,
+                          random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                        ~ 1 | Lab_PI_2,
+                                        ~ 1 | Repeated_trait_ID_unique,
+                                        ~ 1 | species.updated,
+                                        ~ 1 | species.updated.new,
+                                        ~ 1 | Study_ID,
+                                        ~ 1 | ES_ID),
+                          method = "REML",
+                          R = list(species.updated.new = phylo_cor_new),
+                          control = list(optimizer="optim"),
+                          test = "t",
+                          data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.all.in, 
@@ -1279,20 +1279,20 @@ table(is.na(noise.ES.final.lnRR$ES_origin))
 
 # SPLm_pos_2
 lnRR.VCV.ES.origin <- rma.mv(yi = yi.lnRR.signed,
-                              V = VCV_vi.lnRR,
-                              mods = ~ 1 + ES_origin,
-                              random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                            ~ 1 | Lab_PI_2,
-                                            ~ 1 | Repeated_trait_ID_unique,
-                                            ~ 1 | species.updated,
-                                            ~ 1 | species.updated.new,
-                                            ~ 1 | Study_ID,
-                                            ~ 1 | ES_ID),
-                              method = "REML",
-                              R = list(species.updated.new = phylo_cor_new),
-                              control = list(optimizer="optim"),
-                              test = "t",
-                              data = noise.ES.final.lnRR)
+                             V = VCV_vi.lnRR,
+                             mods = ~ 1 + ES_origin,
+                             random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                           ~ 1 | Lab_PI_2,
+                                           ~ 1 | Repeated_trait_ID_unique,
+                                           ~ 1 | species.updated,
+                                           ~ 1 | species.updated.new,
+                                           ~ 1 | Study_ID,
+                                           ~ 1 | ES_ID),
+                             method = "REML",
+                             R = list(species.updated.new = phylo_cor_new),
+                             control = list(optimizer="optim"),
+                             test = "t",
+                             data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.ES.origin, 
@@ -1306,20 +1306,20 @@ summary(lnRR.VCV.ES.origin,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.ES.origin.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                    V = VCV_vi.lnRR,
-                                    mods = ~ -1 + ES_origin,
-                                    random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                                  ~ 1 | Lab_PI_2,
-                                                  ~ 1 | Repeated_trait_ID_unique,
-                                                  ~ 1 | species.updated,
-                                                  ~ 1 | species.updated.new,
-                                                  ~ 1 | Study_ID,
-                                                  ~ 1 | ES_ID),
-                                    method = "REML",
-                                    R = list(species.updated.new = phylo_cor_new),
-                                    control = list(optimizer="optim"),
-                                    test = "t",
-                                    data = noise.ES.final.lnRR)
+                                   V = VCV_vi.lnRR,
+                                   mods = ~ -1 + ES_origin,
+                                   random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                                 ~ 1 | Lab_PI_2,
+                                                 ~ 1 | Repeated_trait_ID_unique,
+                                                 ~ 1 | species.updated,
+                                                 ~ 1 | species.updated.new,
+                                                 ~ 1 | Study_ID,
+                                                 ~ 1 | ES_ID),
+                                   method = "REML",
+                                   R = list(species.updated.new = phylo_cor_new),
+                                   control = list(optimizer="optim"),
+                                   test = "t",
+                                   data = noise.ES.final.lnRR)
 
 # Saving model
 saveRDS(lnRR.VCV.ES.origin.NoInt, 
@@ -1333,12 +1333,12 @@ summary(lnRR.VCV.ES.origin.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.ES.origin <- orchaRd::orchard_plot(lnRR.VCV.ES.origin, 
-                                                 mod = "ES_origin", 
-                                                 group = "Study_ID", 
-                                                 xlab = "Effect size (lnRR)",
-                                                 trunk.size = 2,
-                                                 branch.size = 3,
-                                                 twig.size = 1)
+                                                mod = "ES_origin", 
+                                                group = "Study_ID", 
+                                                xlab = "Effect size (lnRR)",
+                                                trunk.size = 2,
+                                                branch.size = 3,
+                                                twig.size = 1)
 
 fig_lnRR.VCV.ES.origin
 
@@ -1357,27 +1357,27 @@ noise.ES.final.SMD.geary.test <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR
 
 # VCV creation
 VCV_vi.lnRR.geary.test  <- vcalc(vi = vi.lnRR,
-                                  cluster = Study_ID,
-                                  obs = ES_ID,
-                                  data = noise.ES.final.SMD.geary.test,
-                                  rho = 0.5)
+                                 cluster = Study_ID,
+                                 obs = ES_ID,
+                                 data = noise.ES.final.SMD.geary.test,
+                                 rho = 0.5)
 
 # geary_test
 lnRR.VCV.geary.test <- rma.mv(yi = yi.lnRR.signed,
-                               V = VCV_vi.lnRR.geary.test,
-                               mods = ~ 1 + geary_test,
-                               random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                             ~ 1 | Lab_PI_2,
-                                             ~ 1 | Repeated_trait_ID_unique,
-                                             ~ 1 | species.updated,
-                                             ~ 1 | species.updated.new,
-                                             ~ 1 | Study_ID,
-                                             ~ 1 | ES_ID),
-                               method = "REML",
-                               R = list(species.updated.new = phylo_cor_new),
-                               control = list(optimizer="optim"),
-                               test = "t",
-                               data = noise.ES.final.SMD.geary.test)
+                              V = VCV_vi.lnRR.geary.test,
+                              mods = ~ 1 + geary_test,
+                              random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                            ~ 1 | Lab_PI_2,
+                                            ~ 1 | Repeated_trait_ID_unique,
+                                            ~ 1 | species.updated,
+                                            ~ 1 | species.updated.new,
+                                            ~ 1 | Study_ID,
+                                            ~ 1 | ES_ID),
+                              method = "REML",
+                              R = list(species.updated.new = phylo_cor_new),
+                              control = list(optimizer="optim"),
+                              test = "t",
+                              data = noise.ES.final.SMD.geary.test)
 
 # Saving model
 saveRDS(lnRR.VCV.geary.test, 
@@ -1391,20 +1391,20 @@ summary(lnRR.VCV.geary.test,digits=3)
 
 # removing intercept to see each effect size separately
 lnRR.VCV.geary.test.NoInt <- rma.mv(yi = yi.lnRR.signed,
-                                     V = VCV_vi.lnRR.geary.test,
-                                     mods = ~ -1 + geary_test,
-                                     random = list(~ 1 | Shared_Ctrl_ID_unique,
-                                                   ~ 1 | Lab_PI_2,
-                                                   ~ 1 | Repeated_trait_ID_unique,
-                                                   ~ 1 | species.updated,
-                                                   ~ 1 | species.updated.new,
-                                                   ~ 1 | Study_ID,
-                                                   ~ 1 | ES_ID),
-                                     method = "REML",
-                                     R = list(species.updated.new = phylo_cor_new),
-                                     control = list(optimizer="optim"),
-                                     test = "t",
-                                     data = noise.ES.final.SMD.geary.test)
+                                    V = VCV_vi.lnRR.geary.test,
+                                    mods = ~ -1 + geary_test,
+                                    random = list(~ 1 | Shared_Ctrl_ID_unique,
+                                                  ~ 1 | Lab_PI_2,
+                                                  ~ 1 | Repeated_trait_ID_unique,
+                                                  ~ 1 | species.updated,
+                                                  ~ 1 | species.updated.new,
+                                                  ~ 1 | Study_ID,
+                                                  ~ 1 | ES_ID),
+                                    method = "REML",
+                                    R = list(species.updated.new = phylo_cor_new),
+                                    control = list(optimizer="optim"),
+                                    test = "t",
+                                    data = noise.ES.final.SMD.geary.test)
 
 # Saving model
 saveRDS(lnRR.VCV.geary.test.NoInt, 
@@ -1418,12 +1418,12 @@ summary(lnRR.VCV.geary.test.NoInt,digits=3)
 
 # plotting
 fig_lnRR.VCV.geary.test <- orchaRd::orchard_plot(lnRR.VCV.geary.test, 
-                                                  mod = "geary_test", 
-                                                  group = "Study_ID", 
-                                                  xlab = "Effect size (lnRR)",
-                                                  trunk.size = 2,
-                                                  branch.size = 3,
-                                                  twig.size = 1)
+                                                 mod = "geary_test", 
+                                                 group = "Study_ID", 
+                                                 xlab = "Effect size (lnRR)",
+                                                 trunk.size = 2,
+                                                 branch.size = 3,
+                                                 twig.size = 1)
 
 fig_lnRR.VCV.geary.test
 
@@ -1517,3 +1517,87 @@ fig_lnRR.VCV.publication.source
 
 # The amount of heterogeneity explained is: ~X%
 round(r2_ml(lnRR.VCV.publication.source)*100, 1)[1]
+
+
+################################################################################
+# Model estimates visualisation as table
+################################################################################ 
+
+# Many models into one big table (my function only partially works because it
+# does not fully accommodate continous moderators, but no issue, since this
+# is just for printing results)
+models.S1.a <- list(
+  Fitness_proxy_level = list(m = lnRR.VCV.H1.P3, mod = "Outcome_level"),
+  Fitness_proxy_category = list(m = lnRR.VCV.H1.P5, mod = "Outcome_4"),
+  Bird_stage = list(m = lnRR.VCV.H2.P7, mod = "Bird_age_category"),
+  Time_after_hatching = list(m = lnRR.VCV.H2.P8, mod = "Bird_age_2"),
+  Noise_treatment_extent = list(m = lnRR.VCV.H3.P9, mod = "Broadcast_period_3"),
+  Time_of_exposure = list(m = lnRR.H3.P10.P11, mod = "Spl_time_after_noise_2"),
+  Noise_treatment = list(m = lnRR.VCV.H3.P12, mod = "Dif_noise_mean")
+)
+
+big_table.S1.a <- bind_rows(
+  lapply(models.S1.a, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+models.S1.b <- list(
+  Fitness_proxy_level = list(m = lnRR.VCV.H1.P3.NoInt, mod = "Outcome_level"),
+  Fitness_proxy_category = list(m = lnRR.VCV.H1.P5.NoInt, mod = "Outcome_4"),
+  Bird_stage = list(m = lnRR.VCV.H2.P7.NoInt, mod = "Bird_age_category"),
+  Noise_treatment_extent = list(m = lnRR.VCV.H3.P9.NoInt, mod = "Broadcast_period_3")
+)
+
+big_table.S1.b <- bind_rows(
+  lapply(models.S1.b, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+
+# Here is the second table (methods / RoB)
+models.S2.a <- list(
+  Noise_biological_relevance = list(m = lnRR.VCV.H4.P13, mod = "Noise_type_3"),
+  Noise_type = list(m = lnRR.VCV.H4.P14, mod = "Noise_type_4"),
+  Study_location = list(m = lnRR.VCV.H4.P15, mod = "Captive_generation_2"),
+  Noise_measuring_position = list(m = lnRR.VCV.H4.P16, mod = "SPLm_pos_2")
+)
+
+big_table.S2.a <- bind_rows(
+  lapply(models.S2.a, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+
+# Here is the second table (methods / RoB)
+models.S2.b <- list(
+  Noise_biological_relevance = list(m = lnRR.VCV.H4.P13.NoInt, mod = "Noise_type_3"),
+  Noise_type = list(m = lnRR.VCV.H4.P14.NoInt, mod = "Noise_type_4"),
+  Study_location = list(m = lnRR.VCV.H4.P15.NoInt, mod = "Captive_generation_2"),
+  Noise_measuring_position = list(m = lnRR.VCV.H4.P16.NoInt, mod = "SPLm_pos_2")
+)
+
+big_table.S2.b <- bind_rows(
+  lapply(models.S2.b, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+
+# Here is the third table (publication biases)
+models.S3 <- list(
+  Small_study_effects = list(m = lnRR.VCV.H5.P17, mod = "sqrt_inv_eff_N"),
+  Decline_effects = list(m = lnRR.VCV.H5.P18, mod = "Year_c"),
+  Reporting_effects = list(m = lnRR.VCV.H5.P19, mod = "data_reporting"),
+  Reporting_effects = list(m = lnRR.VCV.H5.P19.NoInt, mod = "data_reporting")
+)
+
+big_table.S3 <- bind_rows(
+  lapply(models.S3, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+# printing them all at once
+big_table.S1.a
+big_table.S1.b
+big_table.S2.a
+big_table.S2.b
+big_table.S3

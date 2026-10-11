@@ -1672,43 +1672,73 @@ round(r2_ml(SMD.H.VCV.publication.source)*100, 1)[1]
 # Many models into one big table (my function only partially works because it
 # does not fully accommodate continous moderators, but no issue, since this
 # is just for printing results)
-models.1 <- list(
-  Fitness_proxy_level = list(m = SMD.H.VCV.H1.P3.NoInt, mod = "Outcome_level"),
-  Fitness_proxy_category = list(m = SMD.H.VCV.H1.P5.NoInt, mod = "Outcome_4"),
-  Bird_stage = list(m = SMD.H.VCV.H2.P7.NoInt, mod = "Bird_age_category"),
+models.1.a <- list(
+  Fitness_proxy_level = list(m = SMD.H.VCV.H1.P3, mod = "Outcome_level"),
+  Fitness_proxy_category = list(m = SMD.H.VCV.H1.P5, mod = "Outcome_4"),
+  Bird_stage = list(m = SMD.H.VCV.H2.P7, mod = "Bird_age_category"),
   Time_after_hatching = list(m = SMD.H.VCV.H2.P8, mod = "Bird_age_2"),
-  Noise_treatment_extent = list(m = SMD.H.VCV.H3.P9.NoInt, mod = "Broadcast_period_3"),
+  Noise_treatment_extent = list(m = SMD.H.VCV.H3.P9, mod = "Broadcast_period_3"),
   Time_of_exposure = list(m = SMD.H.H3.P10.P11, mod = "Spl_time_after_noise_2"),
   Noise_treatment = list(m = SMD.H.VCV.H3.P12, mod = "Dif_noise_mean")
 )
 
-big_table.1 <- bind_rows(
-  lapply(models.1, \(x) extract_model(x$m, x$mod)),
+big_table.1.a <- bind_rows(
+  lapply(models.1.a, \(x) extract_model(x$m, x$mod)),
   .id = "model"
 )
 
-big_table.1
+# big_table.1.a
+
+models.1.b <- list(
+  Fitness_proxy_level = list(m = SMD.H.VCV.H1.P3.NoInt, mod = "Outcome_level"),
+  Fitness_proxy_category = list(m = SMD.H.VCV.H1.P5.NoInt, mod = "Outcome_4"),
+  Bird_stage = list(m = SMD.H.VCV.H2.P7.NoInt, mod = "Bird_age_category"),
+  Noise_treatment_extent = list(m = SMD.H.VCV.H3.P9.NoInt, mod = "Broadcast_period_3")
+)
+
+big_table.1.b <- bind_rows(
+  lapply(models.1.b, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+# big_table.1.b
 
 # Here is the second table (methods / RoB)
-models.2 <- list(
+models.2.a <- list(
+  Noise_biological_relevance = list(m = SMD.H.VCV.H4.P13, mod = "Noise_type_3"),
+  Noise_type = list(m = SMD.H.VCV.H4.P14, mod = "Noise_type_4"),
+  Study_location = list(m = SMD.H.VCV.H4.P15, mod = "Captive_generation_2"),
+  Noise_measuring_position = list(m = SMD.H.VCV.H4.P16, mod = "SPLm_pos_2")
+)
+
+big_table.2.a <- bind_rows(
+  lapply(models.2.a, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
+
+# big_table.2.a
+
+# Here is the second table (methods / RoB)
+models.2.b <- list(
   Noise_biological_relevance = list(m = SMD.H.VCV.H4.P13.NoInt, mod = "Noise_type_3"),
   Noise_type = list(m = SMD.H.VCV.H4.P14.NoInt, mod = "Noise_type_4"),
   Study_location = list(m = SMD.H.VCV.H4.P15.NoInt, mod = "Captive_generation_2"),
   Noise_measuring_position = list(m = SMD.H.VCV.H4.P16.NoInt, mod = "SPLm_pos_2")
 )
 
-big_table.2 <- bind_rows(
-  lapply(models.2, \(x) extract_model(x$m, x$mod)),
+big_table.2.b <- bind_rows(
+  lapply(models.2.b, \(x) extract_model(x$m, x$mod)),
   .id = "model"
 )
 
-big_table.2
+# big_table.2.b
 
 # Here is the third table (publication biases)
 models.3 <- list(
-  Small-study_effects = list(m = SMD.H.VCV.H5.P17, mod = "sqrt_inv_eff_N"),
+  Small_study_effects = list(m = SMD.H.VCV.H5.P17, mod = "sqrt_inv_eff_N"),
   Decline_effects = list(m = SMD.H.VCV.H5.P18, mod = "Year_c"),
-  Reporting_effects = list(m = SMD.H.VCV.H5.P19.NoInt, mod = "data_reporting"),
+  Reporting_effects = list(m = SMD.H.VCV.H5.P19, mod = "data_reporting"),
+  Reporting_effects = list(m = SMD.H.VCV.H5.P19.NoInt, mod = "data_reporting")
 )
 
 big_table.3 <- bind_rows(
@@ -1716,5 +1746,12 @@ big_table.3 <- bind_rows(
   .id = "model"
 )
 
-big_table.3
+# big_table.3
 
+
+# printing them all at once
+big_table.1.a
+big_table.1.b
+big_table.2.a
+big_table.2.b
+big_table.3
