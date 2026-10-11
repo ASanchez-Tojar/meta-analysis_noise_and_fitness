@@ -588,19 +588,19 @@ table(!(is.na(noise.ES.final.lnRR$Spl_time_after_noise_2)) &
         !(is.na(noise.ES.final.lnRR$Expe_noise_mean_2)))
 
 # subsetting the dataset to the lnRR available data
-noise.ES.final.lnRR.H3.P10.P11 <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR$Spl_time_after_noise_2)) & 
+noise.ES.final.lnRR.VCV.H3.P10.P11 <- noise.ES.final.lnRR[!(is.na(noise.ES.final.lnRR$Spl_time_after_noise_2)) & 
                                                         !(is.na(noise.ES.final.lnRR$Expe_noise_mean_2)),]
 
 # VCV creation
-VCV_vi.lnRR.H3.P10.P11  <- vcalc(vi = vi.lnRR,
+VCV_vi.lnRR.VCV.H3.P10.P11  <- vcalc(vi = vi.lnRR,
                                  cluster = Study_ID,
                                  obs = ES_ID,
-                                 data = noise.ES.final.lnRR.H3.P10.P11,
+                                 data = noise.ES.final.lnRR.VCV.H3.P10.P11,
                                  rho = 0.5)
 
 # Spl_time_after_noise_2 & Expe_noise_mean_2
-lnRR.H3.P10.P11 <- rma.mv(yi = yi.lnRR.signed,
-                          V = VCV_vi.lnRR.H3.P10.P11,
+lnRR.VCV.H3.P10.P11 <- rma.mv(yi = yi.lnRR.signed,
+                          V = VCV_vi.lnRR.VCV.H3.P10.P11,
                           mods = ~ 1 + Spl_time_after_noise_2*Expe_noise_mean_2,
                           random = list(~ 1 | Shared_Ctrl_ID_unique,
                                         ~ 1 | Lab_PI_2,
@@ -613,20 +613,20 @@ lnRR.H3.P10.P11 <- rma.mv(yi = yi.lnRR.signed,
                           R = list(species.updated.new = phylo_cor_new),
                           control = list(optimizer="optim"),
                           test = "t",
-                          data = noise.ES.final.lnRR.H3.P10.P11)
+                          data = noise.ES.final.lnRR.VCV.H3.P10.P11)
 
 # Saving model
-saveRDS(lnRR.H3.P10.P11, 
+saveRDS(lnRR.VCV.H3.P10.P11, 
         file = "code/models/supplementary_analyses/lnRR_VCV_H3_P10_P11.rds")
 
 # Load model
-lnRR.H3.P10.P11 <- readRDS("code/models/supplementary_analyses/lnRR_VCV_H3_P10_P11.rds")
+lnRR.VCV.H3.P10.P11 <- readRDS("code/models/supplementary_analyses/lnRR_VCV_H3_P10_P11.rds")
 
 # Results
-summary(lnRR.H3.P10.P11,digits=3)
+summary(lnRR.VCV.H3.P10.P11,digits=3)
 
 # plotting
-fig_lnRR.VCV.H3.P10.P11.Spl.time <- orchaRd::bubble_plot(lnRR.H3.P10.P11, 
+fig_lnRR.VCV.H3.P10.P11.Spl.time <- orchaRd::bubble_plot(lnRR.VCV.H3.P10.P11, 
                                                          mod = "Spl_time_after_noise_2", 
                                                          group = "Study_ID",
                                                          ylab = "Effect size (lnRR)",
@@ -635,7 +635,7 @@ fig_lnRR.VCV.H3.P10.P11.Spl.time <- orchaRd::bubble_plot(lnRR.H3.P10.P11,
 
 fig_lnRR.VCV.H3.P10.P11.Spl.time
 
-fig_lnRR.VCV.H3.P10.P11.noise <- orchaRd::bubble_plot(lnRR.H3.P10.P11, 
+fig_lnRR.VCV.H3.P10.P11.noise <- orchaRd::bubble_plot(lnRR.VCV.H3.P10.P11, 
                                                       mod = "Expe_noise_mean_2", 
                                                       group = "Study_ID",
                                                       ylab = "Effect size (lnRR)",
@@ -645,7 +645,7 @@ fig_lnRR.VCV.H3.P10.P11.noise <- orchaRd::bubble_plot(lnRR.H3.P10.P11,
 fig_lnRR.VCV.H3.P10.P11.noise
 
 # The amount of heterogeneity explained is: ~X%
-round(r2_ml(lnRR.H3.P10.P11)*100, 1)[1]
+round(r2_ml(lnRR.VCV.H3.P10.P11)*100, 1)[1]
 
 ################################################################################
 # Noise treatment relative intensity (Hypothesis 3, P.12)
@@ -1532,7 +1532,7 @@ models.S1.a <- list(
   Bird_stage = list(m = lnRR.VCV.H2.P7, mod = "Bird_age_category"),
   Time_after_hatching = list(m = lnRR.VCV.H2.P8, mod = "Bird_age_2"),
   Noise_treatment_extent = list(m = lnRR.VCV.H3.P9, mod = "Broadcast_period_3"),
-  Time_of_exposure = list(m = lnRR.H3.P10.P11, mod = "Spl_time_after_noise_2"),
+  Time_of_exposure = list(m = lnRR.VCV.H3.P10.P11, mod = "Spl_time_after_noise_2"),
   Noise_treatment = list(m = lnRR.VCV.H3.P12, mod = "Dif_noise_mean")
 )
 
