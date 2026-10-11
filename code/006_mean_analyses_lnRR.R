@@ -62,6 +62,31 @@ noise.ES.final <- read.csv("data/04_processed/noisemeta_datasheet_processed_3.cs
 # Loading phylogeneticy matrix
 load("data/04_processed/phylogeny/phylo_cor_McTavish2025.Rdata") #phylo_cor_new
 
+################################################################################
+# creating year of publication centred, and effective sample size
+
+# mean-centring year
+noise.ES.final.lnRR$Year_c <- noise.ES.final.lnRR$Year - mean(noise.ES.final.lnRR$Year)
+
+# creating the effect sample size following Nakagawa et al. 2022: https://doi.org/10.1111/2041-210X.13724
+noise.ES.final.lnRR$sqrt_inv_eff_N <- sqrt(
+  1/((noise.ES.final.lnRR$N_expe_final_adj*noise.ES.final.lnRR$N_ctrl_final_adj)/
+       (noise.ES.final.lnRR$N_expe_final_adj+noise.ES.final.lnRR$N_ctrl_final_adj))
+)
+
+# revising the NA's (which should exist for the gradients)
+# table(is.na(noise.ES.final.lnRR$sqrt_inv_eff_N))
+# summary(noise.ES.final.lnRR$sqrt_inv_eff_N)
+
+# since the gradients have a sample size that is considered as balance here
+# we can simply use the square root of the its inverse
+noise.ES.final.lnRR$sqrt_inv_eff_N <- ifelse(is.na(noise.ES.final.lnRR$sqrt_inv_eff_N),
+                                             sqrt(1/noise.ES.final.lnRR$N_final_total_adj),
+                                             noise.ES.final.lnRR$sqrt_inv_eff_N)
+
+# table(is.na(noise.ES.final.lnRR$sqrt_inv_eff_N))
+# summary(noise.ES.final.lnRR$sqrt_inv_eff_N)
+
 
 ################################################################################
 # Code from https://doi.org/10.1002/ece3.73578 REUSED
@@ -1029,26 +1054,6 @@ round(r2_ml(lnRR.VCV.H4.P16)*100, 1)[1]
 # effect size (Hypothesis 5, P.17)
 ################################################################################
 
-# creating the effect sample size following Nakagawa et al. 2022: https://doi.org/10.1111/2041-210X.13724
-noise.ES.final.lnRR$sqrt_inv_eff_N <- sqrt(
-  1/((noise.ES.final.lnRR$N_expe_final_adj*noise.ES.final.lnRR$N_ctrl_final_adj)/
-       (noise.ES.final.lnRR$N_expe_final_adj+noise.ES.final.lnRR$N_ctrl_final_adj))
-)
-
-# revising the NA's (which should exist for the gradients)
-table(is.na(noise.ES.final.lnRR$sqrt_inv_eff_N))
-summary(noise.ES.final.lnRR$sqrt_inv_eff_N)
-
-# since the gradients have a sample size that is considered as balance here
-# we can simply use the square root of the its inverse
-noise.ES.final.lnRR$sqrt_inv_eff_N <- ifelse(is.na(noise.ES.final.lnRR$sqrt_inv_eff_N),
-                                             sqrt(1/noise.ES.final.lnRR$N_final_total_adj),
-                                             noise.ES.final.lnRR$sqrt_inv_eff_N)
-
-table(is.na(noise.ES.final.lnRR$sqrt_inv_eff_N))
-summary(noise.ES.final.lnRR$sqrt_inv_eff_N)
-
-
 # sqrt_inv_eff_N
 lnRR.VCV.H5.P17 <- rma.mv(yi = yi.lnRR.signed,
                           V = VCV_vi.lnRR,
@@ -1095,9 +1100,6 @@ round(r2_ml(lnRR.VCV.H5.P17)*100, 1)[1]
 
 # checking the size of this subset by checking NA's: if different, new VCV
 table(is.na(noise.ES.final.lnRR$Year))
-
-# mean-centring year
-noise.ES.final.lnRR$Year_c <- noise.ES.final.lnRR$Year - mean(noise.ES.final.lnRR$Year)
 
 # Year_c
 lnRR.VCV.H5.P18 <- rma.mv(yi = yi.lnRR.signed,
