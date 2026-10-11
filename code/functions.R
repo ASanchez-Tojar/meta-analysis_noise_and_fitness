@@ -37,7 +37,8 @@ het_interpret <- function(observed_value, het_type, es_type, data) {
 
 #-----------------------estimates extraction -----------------------#
 extract_model <- function(m, moderator = NULL,
-                          es = "ES_ID", study = "Study_ID") {
+                          es = "ES_ID", study = "Study_ID",
+                          digits = 3) {
   
   # Coefficient table
   tab <- coef(summary(m))
@@ -48,7 +49,6 @@ extract_model <- function(m, moderator = NULL,
   dat <- m$data[m$not.na, ]
   
   if (is.null(moderator)) {
-    # Intercept-only: all data points belong to the single estimate
     tab$k_ES <- n_distinct(dat[[es]])
     tab$n_Study <- n_distinct(dat[[study]])
   } else {
@@ -61,6 +61,12 @@ extract_model <- function(m, moderator = NULL,
       select(term, k_ES, n_Study)
     tab <- left_join(tab, counts, by = "term")
   }
+  
+  # Round to 3 decimals (k and n stay as integers)
+  tab <- tab |>
+    mutate(across(c(estimate, pval, ci.lb, ci.ub),
+                  \(x) sprintf(paste0("%.", digits, "f"), x)))
+  
   rownames(tab) <- NULL
   tab
 }
