@@ -64,6 +64,10 @@ load("data/04_processed/phylogeny/phylo_cor_McTavish2025.Rdata") #phylo_cor_new
 
 ################################################################################
 # creating year of publication centred, and effective sample size
+###############################################################################
+
+# subsetting the dataset to the SMD.H available data
+noise.ES.final.SMD.H <- noise.ES.final[!(is.na(noise.ES.final$yi.SMD.H.signed)),]
 
 # mean-centring year
 noise.ES.final.SMD.H$Year_c <- noise.ES.final.SMD.H$Year - mean(noise.ES.final.SMD.H$Year)
@@ -224,9 +228,6 @@ round((nrow(noise.ES.final[noise.ES.final$N_final_total_adj>94,])/nrow(noise.ES.
 ################################################################################
 
 # this is the main analysis presented in the manuscript. 
-
-# subsetting the dataset to the SMD.H available data
-noise.ES.final.SMD.H <- noise.ES.final[!(is.na(noise.ES.final$yi.SMD.H.signed)),]
 
 # VARIANCE-COVARIANCE MATRIX for modelling the sampling variances. Creating a 
 # var-covar matrix assuming a 0.5 correlation between effect sizes from the same 
