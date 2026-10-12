@@ -1899,11 +1899,11 @@ noise <- noise %>%
       Shared_Ctrl_N == "1" ~ 1,
       Shared_Ctrl_N == "1 (treatment group is control group for traffic v pink effect sizes)" ~ 1,
       Shared_Ctrl_N == "2" ~ 2,
-      Shared_Ctrl_N == "2 (marginalised across crossed treatment groups)" ~ 2,
+      Shared_Ctrl_N == "2 (marginalised across crossed treatment groups)" ~ 1, #updated by Nick
       Shared_Ctrl_N == "2 (shared experimental group + marginalised across crossed treatment groups)" ~ 1,
       Shared_Ctrl_N == "2 (shared experimental group)" ~ 1,
       Shared_Ctrl_N == "2 + 2 (shared control and experimental group)" ~ 2,
-      Shared_Ctrl_N == "2 + 2 (shared experimental group + marginalised across crossed treatment groups)" ~ 1,
+      #Shared_Ctrl_N == "2 + 2 (shared experimental group + marginalised across crossed treatment groups)" ~ 1, # no longer existing
       Shared_Ctrl_N == "3" ~ 3,
       TRUE ~ NA_real_
     ),
@@ -1916,7 +1916,7 @@ noise <- noise %>%
       Shared_Ctrl_N == "2 (shared experimental group + marginalised across crossed treatment groups)" ~ 2,
       Shared_Ctrl_N == "2 (shared experimental group)" ~ 2,
       Shared_Ctrl_N == "2 + 2 (shared control and experimental group)" ~ 2,
-      Shared_Ctrl_N == "2 + 2 (shared experimental group + marginalised across crossed treatment groups)" ~ 2,
+      #Shared_Ctrl_N == "2 + 2 (shared experimental group + marginalised across crossed treatment groups)" ~ 2, # no longer existing
       Shared_Ctrl_N == "3" ~ 1,
       TRUE ~ NA_real_
     )
