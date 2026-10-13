@@ -556,7 +556,7 @@ mean_differences_among_lnVR %>%
   data.frame()
 
 
-# 44 observations failed the Geary's test. However, we do not exclude anything 
+# 42 observations failed the Geary's test. However, we do not exclude anything 
 # as suggested by Lajeunesse (2015), I will do a sensitivity analysis with and 
 # without these effect sizes for lnRR. Clearly, these are all high variance 
 # extreme'ish effects

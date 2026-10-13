@@ -40,7 +40,7 @@ rm(list = ls())
 ################################################################################
 
 # Load raw dataset
-noise <- read.csv("data/03_raw/Draft_noisemeta_datasheet_MASTER_20261006.csv",
+noise <- read.csv("data/03_raw/Draft_noisemeta_datasheet_MASTER_20261013.csv",
                   header=T)
 
 ################################################################################
@@ -1103,7 +1103,7 @@ summary(noise$Noise_type_3)
 traffic.noise <- c("traffic",
                    "urban + traffic",
                    "traffic + city",
-                   "traffic + ambient",
+                   #"traffic + ambient",
                    "human activity",
                    "truck",
                    "anthropogenic noise")
@@ -1862,29 +1862,33 @@ summary(noise$Shared_Ctrl_N)
 # ES_0676. Data for those two comes from model, estimate from LMM, complex,
 # and P value as the inferential statistic. 
 # Final decision: exclude these 2 estimates. Done here.
+# These two entries are no longer here after the data update, all fixed. Leaving
+# the lines of code because it does not hurt
 noise <- noise[!(noise$ES_ID %in% c("ES_0675","ES_0676")),]
 table(noise$Shared_Ctrl_N)
 table(is.na(noise$Shared_Ctrl_N))
 summary(noise$Shared_Ctrl_N)
 # No issues remain
 
-# Because some entries had to be deleted from the database due to missing or 
-# unclear information, we have now realised that Shared_Ctrl_N has to be updated
-# accordingly (i.e., some originally shared designs are actually to a shared
-# design in our dataset because, for one reason or the other, we are not 
-# including the comparisons that made them be shared). The following lines of
-# code manually change the entries that need to be updated
-
-Shared_Ctrl_N_ES_ID_updates_1 <- c("ES_0012", "ES_0013", "ES_0014", "ES_0015",
-                                   "ES_0148", "ES_0150", "ES_0152", "ES_0154",
-                                   "ES_0156", "ES_0158", "ES_0160", "ES_0162",
-                                   "ES_0164", "ES_0166", "ES_0168", "ES_0170",
-                                   "ES_0172", "ES_0174", "ES_0176", "ES_0178",
-                                   "ES_0180", "ES_0182", "ES_0184", "ES_0186",
-                                   "ES_0188") 
-
-#noise[noise$ES_ID %in% Shared_Ctrl_N_ES_ID_updates_1,c("Study_ID","ES_ID","Shared_Ctrl_N")]
-noise$Shared_Ctrl_N[noise$ES_ID %in% Shared_Ctrl_N_ES_ID_updates_1] <- 1
+# The following bit is commented because it should not be needed anymore since
+# we updated the data directly
+# # Because some entries had to be deleted from the database due to missing or 
+# # unclear information, we have now realised that Shared_Ctrl_N has to be updated
+# # accordingly (i.e., some originally shared designs are actually to a shared
+# # design in our dataset because, for one reason or the other, we are not 
+# # including the comparisons that made them be shared). The following lines of
+# # code manually change the entries that need to be updated
+# 
+# Shared_Ctrl_N_ES_ID_updates_1 <- c("ES_0012", "ES_0013", "ES_0014", "ES_0015",
+#                                    "ES_0148", "ES_0150", "ES_0152", "ES_0154",
+#                                    "ES_0156", "ES_0158", "ES_0160", "ES_0162",
+#                                    "ES_0164", "ES_0166", "ES_0168", "ES_0170",
+#                                    "ES_0172", "ES_0174", "ES_0176", "ES_0178",
+#                                    "ES_0180", "ES_0182", "ES_0184", "ES_0186",
+#                                    "ES_0188") 
+# 
+# #noise[noise$ES_ID %in% Shared_Ctrl_N_ES_ID_updates_1,c("Study_ID","ES_ID","Shared_Ctrl_N")]
+# noise$Shared_Ctrl_N[noise$ES_ID %in% Shared_Ctrl_N_ES_ID_updates_1] <- 1
 
 # # Excluding the NA (excluded) study for not being experimental
 # noise <- noise[noise$Shared_Ctrl_N!="NA (excluded)",]
@@ -1897,9 +1901,9 @@ noise <- noise %>%
   mutate(
     Shared_Ctrl_N_divide = case_when(
       Shared_Ctrl_N == "1" ~ 1,
-      Shared_Ctrl_N == "1 (treatment group is control group for traffic v pink effect sizes)" ~ 1,
+      Shared_Ctrl_N == "1 (treatment group is control group for traffic v pink effect sizes)" ~ 1, #updated by Nick
       Shared_Ctrl_N == "2" ~ 2,
-      Shared_Ctrl_N == "2 (marginalised across crossed treatment groups)" ~ 1, #updated by Nick
+      Shared_Ctrl_N == "1 (marginalised across crossed treatment groups)" ~ 1, #updated by Nick
       Shared_Ctrl_N == "2 (shared experimental group + marginalised across crossed treatment groups)" ~ 1,
       Shared_Ctrl_N == "2 (shared experimental group)" ~ 1,
       Shared_Ctrl_N == "2 + 2 (shared control and experimental group)" ~ 2,
@@ -1912,7 +1916,7 @@ noise <- noise %>%
       Shared_Ctrl_N == "1" ~ 1,
       Shared_Ctrl_N == "1 (treatment group is control group for traffic v pink effect sizes)" ~ 1,
       Shared_Ctrl_N == "2" ~ 1,
-      Shared_Ctrl_N == "2 (marginalised across crossed treatment groups)" ~ 1,
+      Shared_Ctrl_N == "1 (marginalised across crossed treatment groups)" ~ 1, #updated by Nick
       Shared_Ctrl_N == "2 (shared experimental group + marginalised across crossed treatment groups)" ~ 2,
       Shared_Ctrl_N == "2 (shared experimental group)" ~ 2,
       Shared_Ctrl_N == "2 + 2 (shared control and experimental group)" ~ 2,
@@ -2858,7 +2862,7 @@ summary(noise$Outcome_expected_sign_metaanalysis_to_multiply)
 
 
 ################################################################################
-# Before we revise the summary statistics we need to fixe some additional typos
+# Before we revise the summary statistics we need to fix some additional typos
 # that became clear as this script progressed and would like to fix before the
 # cleaning of the variables involved
 
@@ -3965,9 +3969,9 @@ table(noise$SD_expe_value==0) #2
 
 # how many NA values are there?
 table(is.na(noise$SD_ctrl_value)) #24, 23 are gradients
-table(is.na(noise$SD_expe_value)) #25, 23 are gradients
+table(is.na(noise$SD_expe_value)) #24, 23 are gradients
 
-# same but without gradients #1 and 2
+# same but without gradients #1 and 1
 table(
   is.na(noise$SD_ctrl_value[
     noise$Group_compar_YN_2 != "0 (gradient/correlational study)"
@@ -3993,10 +3997,10 @@ table(noise$SE_ctrl_value==0) #12
 table(noise$SE_expe_value==0) #2
 
 # how many NA values are there?
-table(is.na(noise$SE_ctrl_value)) #26, 23 are gradients
-table(is.na(noise$SE_expe_value)) #26, 23 are gradients
+table(is.na(noise$SE_ctrl_value)) #24, 23 are gradients
+table(is.na(noise$SE_expe_value)) #24, 23 are gradients
 
-# same but without gradients #1 and 2
+# same but without gradients #1 and 1
 table(
   is.na(noise$SE_ctrl_value[
     noise$Group_compar_YN_2 != "0 (gradient/correlational study)"
@@ -4019,7 +4023,7 @@ noise <- noise[noise$ES_ID != "ES_0021",]
 nrow(noise)
 
 # We are also excluding the entries that contain a 0 as SD for either the control
-# or the experiment as these cannot be used for calculating effect sizes
+# or the experiment as these cannot be used for calculating (main) effect sizes
 sum(noise$SD_ctrl_value == 0 | noise$SD_expe_value == 0, na.rm = TRUE) #14 rows
 
 nrow(noise)
@@ -4034,13 +4038,16 @@ noise <- noise %>%
 nrow(noise)
 length(unique(noise$Study_ID))
 
+# UPDATE: after revising the shared control groups, we no longer have entries
+# showing up as < 2 sample size! The code, however, will be left here for 
+# transparency (and because it does not hurt)
 # We are also excluding the entries that contain a <2 value as the adjusted 
 # sample size for either the control or the experiment. This is in agreement with
 # our approach so far, and it indirectly takes care of getting rid of a few
 # outliers what popped up in the following scripts, as well as taken care of the
 # fact that we can only estimate SMDH with dF (n1+n2-2) greater than 1. l
-sum(noise$N_ctrl_final_adj == 1 | noise$N_expe_final_adj == 1, na.rm = TRUE) #10 rows
-sum(noise$N_ctrl_final_adj < 2 | noise$N_expe_final_adj < 2, na.rm = TRUE) #16 rows
+sum(noise$N_ctrl_final_adj == 1 | noise$N_expe_final_adj == 1, na.rm = TRUE) #0 rows
+sum(noise$N_ctrl_final_adj < 2 | noise$N_expe_final_adj < 2, na.rm = TRUE) #0 rows
 
 noise$ES_ID[(noise$N_ctrl_final_adj < 2 | noise$N_expe_final_adj < 2) & !(is.na(noise$N_expe_final_adj))]
 
