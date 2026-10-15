@@ -458,6 +458,11 @@ SMD.H.VCV.H1.P5 <- readRDS("code/models/main_analyses/SMD_H_VCV_H1_P5.rds")
 # Results
 summary(SMD.H.VCV.H1.P5,digits=3)
 
+# post-hoc analyses
+car::linearHypothesis(SMD.H.VCV.H1.P5, rbind(c(0,1,-1,0)))
+car::linearHypothesis(SMD.H.VCV.H1.P5, rbind(c(0,1,0,-1)))
+car::linearHypothesis(SMD.H.VCV.H1.P5, rbind(c(0,0,1,-1)))
+
 # removing intercept to see each effect size separately
 SMD.H.VCV.H1.P5.NoInt <- rma.mv(yi = yi.SMD.H.signed,
                                 V = VCV_vi.SMD.H,
@@ -685,6 +690,11 @@ SMD.H.VCV.H3.P9 <- readRDS("code/models/main_analyses/SMD_H_VCV_H3_P9.rds")
 
 # Results
 summary(SMD.H.VCV.H3.P9,digits=3)
+
+# post-hoc analyses
+car::linearHypothesis(SMD.H.VCV.H3.P9, rbind(c(0,1,-1,0)))
+car::linearHypothesis(SMD.H.VCV.H3.P9, rbind(c(0,1,0,-1)))
+car::linearHypothesis(SMD.H.VCV.H3.P9, rbind(c(0,0,1,-1)))
 
 # removing intercept to see each effect size separately
 SMD.H.VCV.H3.P9.NoInt <- rma.mv(yi = yi.SMD.H.signed,
@@ -1065,6 +1075,9 @@ SMD.H.VCV.H4.P15 <- readRDS("code/models/main_analyses/SMD_H_VCV_H4_P15.rds")
 # Results
 summary(SMD.H.VCV.H4.P15,digits=3)
 
+# post-hoc analyses
+car::linearHypothesis(SMD.H.VCV.H4.P15, rbind(c(0,1,-1)))
+
 # removing intercept to see each effect size separately
 SMD.H.VCV.H4.P15.NoInt <- rma.mv(yi = yi.SMD.H.signed,
                                  V = VCV_vi.SMD.H,
@@ -1152,6 +1165,9 @@ SMD.H.VCV.H4.P16 <- readRDS("code/models/main_analyses/SMD_H_VCV_H4_P16.rds")
 
 # Results
 summary(SMD.H.VCV.H4.P16,digits=3)
+
+# post-hoc analyses
+car::linearHypothesis(SMD.H.VCV.H4.P16, rbind(c(0,1,-1)))
 
 # removing intercept to see each effect size separately
 SMD.H.VCV.H4.P16.NoInt <- rma.mv(yi = yi.SMD.H.signed,

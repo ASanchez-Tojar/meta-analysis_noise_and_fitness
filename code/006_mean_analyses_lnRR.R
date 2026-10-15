@@ -341,6 +341,11 @@ lnRR.VCV.H1.P5 <- readRDS("code/models/supplementary_analyses/lnRR_VCV_H1_P5.rds
 # Results
 summary(lnRR.VCV.H1.P5,digits=3)
 
+# post-hoc analyses
+car::linearHypothesis(lnRR.VCV.H1.P5, rbind(c(0,1,-1,0)))
+car::linearHypothesis(lnRR.VCV.H1.P5, rbind(c(0,1,0,-1)))
+car::linearHypothesis(lnRR.VCV.H1.P5, rbind(c(0,0,1,-1)))
+
 # removing intercept to see each effect size separately
 lnRR.VCV.H1.P5.NoInt <- rma.mv(yi = yi.lnRR.signed,
                                V = VCV_vi.lnRR,
