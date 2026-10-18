@@ -997,6 +997,9 @@ SMD.H.VCV.H4.P14 <- readRDS("code/models/main_analyses/SMD_H_VCV_H4_P14.rds")
 # Results
 summary(SMD.H.VCV.H4.P14,digits=3)
 
+# post-hoc analyses
+car::linearHypothesis(SMD.H.VCV.H4.P14, rbind(c(0,1,-1)))
+
 # removing intercept to see each effect size separately
 SMD.H.VCV.H4.P14.NoInt <- rma.mv(yi = yi.SMD.H.signed,
                                  V = VCV_vi.SMD.H.H4.P14,
