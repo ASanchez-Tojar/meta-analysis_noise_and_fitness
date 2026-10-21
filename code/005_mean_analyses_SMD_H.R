@@ -1473,6 +1473,9 @@ SMD.H.VCV.ES.origin <- readRDS("code/models/supplementary_analyses/SMD_H_VCV_ES_
 # Results
 summary(SMD.H.VCV.ES.origin,digits=3)
 
+# post-hoc analyses
+car::linearHypothesis(SMD.H.VCV.ES.origin, rbind(c(0,1,-1)))
+
 # removing intercept to see each effect size separately
 SMD.H.VCV.ES.origin.NoInt <- rma.mv(yi = yi.SMD.H.signed,
                                     V = VCV_vi.SMD.H,
