@@ -1621,7 +1621,7 @@ noise.ES.final.SMD.H$publication_source <- ifelse(noise.ES.final.SMD.H$Journal==
 table(is.na(noise.ES.final.SMD.H$publication_source))
 table(noise.ES.final.SMD.H$publication_source)
 
-# geary_test
+# journal vs thesis test
 SMD.H.VCV.publication.source <- rma.mv(yi = yi.SMD.H.signed,
                                        V = VCV_vi.SMD.H,
                                        mods = ~ 1 + publication_source,

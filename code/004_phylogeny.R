@@ -227,7 +227,7 @@ axisPhylo()
 
 # let's save it
 png(
-  "figures/bird_phylogeny.png",
+  "figures/Figure_S2_phylogeny.png",
   width = 3600,
   height = 5400,
   res = 400
@@ -278,7 +278,7 @@ rownames(phylo_cor_plot) <- short_names
 
 # 3. Save the figure
 png(
-  filename = "figures/bird_phylogenetic_correlation_matrix.png",
+  filename = "figures/Figure_S3_Phylogenetic_correlation_matrix.png",
   width = 24,
   height = 24,
   units = "cm",

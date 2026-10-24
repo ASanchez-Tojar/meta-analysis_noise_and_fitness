@@ -286,7 +286,7 @@ fig_height <- 220   # mm (adjust to the number of categories)
 
 
 # PNG, 600 dpi (handy for Word/preview)
-ggsave("figures/Figure_1.png", plot = figure_1,
+ggsave("figures/Figure_2.png", plot = figure_1,
        width = fig_width, height = fig_height, units = "mm",
        dpi = 600, bg = "white")
 
@@ -439,7 +439,7 @@ fig_width  <- 180   # mm (2 columns)
 fig_height <- 180   # mm (adjust to the number of categories)
 
 # PNG, 600 dpi
-ggsave("figures/Figure_2.png", plot = figure_2,
+ggsave("figures/Figure_3.png", plot = figure_2,
        width = fig_width, height = fig_height, units = "mm",
        dpi = 600, bg = "white")
 
