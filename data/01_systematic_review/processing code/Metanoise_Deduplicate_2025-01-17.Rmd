@@ -1,0 +1,57 @@
+---
+title: "Metanoise_deduplicate"
+author: "Lena"
+date: "2025-01-17"
+output: html_document
+---
+
+code from https://www.i-deel.org/blog/around-meta-analysis-13-deduplicating-bibliographic-records
+
+R v 4.2.2
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse) # version 2.0.0
+library(synthesisr) # version 0.3.0
+library(revtools) # version 0.4.1
+
+
+```
+
+```{r}
+dat <- read.csv("../search_2025-01-17/Ryyan_cobined_biblilist.csv") #load the file
+dim(dat) #see the initial number of uploaded references
+
+
+dat$title2 <- stringr::str_replace_all(dat$title,"[:punct:]","") %>% str_replace_all(.,"[ ]+", " ") %>% tolower() # Removing all punctuation and extra white spaces
+
+dat2 <- distinct(dat, title2, .keep_all = TRUE) #reduce to records with unique titles (removes exact duplicates)
+ 
+dim(dat2) #see the new number of records
+#View(arrange(dat2, title2)$title2) #an optional visual check - sorted titles
+
+duplicates_string <- synthesisr::find_duplicates(dat2$title2, method = "string_osa", to_lower = TRUE, rm_punctuation = TRUE, threshold = 7)
+ 
+#dim(manual_checks) #number of duplicated records found
+#View( review_duplicates(dat2$title2, duplicates_string) # optional visual check of the list of duplicates detected. If needed, you can manually mark some records as unique (not duplicates) by providing their new record number from duplicates_string (duplicates have the same record number), e.g.
+#new_duplicates <- synthesisr::override_duplicates(duplicates_string, 34)
+ 
+dat3 <- synthesisr::extract_unique_references(dat2, duplicates_string, type="select") #extract unique references (i.e. remove fuzzy duplicates)
+dim(dat3) #new number of unique records
+
+dat3 %>% select(key, title, authors, journal, issn, volume, issue, pages, day, month, year, publisher, pmc_id, pubmed_id, url, abstract, language, doi) -> dat4 #select the key columns
+
+# write.csv(dat4, "../search_2025-01-17/Ryyan_cobined_biblilist_deduplicated.csv", row.names = F)
+ 
+write_refs(dat4, format = "bib", file = "../search_2025-01-17/Ryyan_cobined_biblilist_deduplicated.bib") #save into a bib file
+ 
+readLines("../search_2025-01-17/Ryyan_cobined_biblilist_deduplicated.bib") %>%
+  stringr::str_replace(
+    pattern = "@ARTICLE",
+    replace = "@article") %>%
+  writeLines(con = "../search_2025-01-17/Ryyan_cobined_biblilist_deduplicated2.bib") #fix the record labels and save again as a .bib file
+```
+

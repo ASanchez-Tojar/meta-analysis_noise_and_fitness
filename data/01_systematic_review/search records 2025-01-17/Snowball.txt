@@ -1,0 +1,6 @@
+Citations and references of teh pilot data
+
+The pilot data was generated in ??? 2023. 
+We performed a small scale maual litterature review looking for effects of anthropogenic noise on bird reproductive output and stress measures. 
+We found 25 articles and one PhD thesis. 
+We used the web interface "citation chaser" (https://estech.shinyapps.io/citationchaser/) to perform snowballing of references of the 24 articles. 

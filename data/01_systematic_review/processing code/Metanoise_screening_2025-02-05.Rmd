@@ -1,0 +1,45 @@
+---
+title: "Metanoise_deduplicate"
+author: "Lena"
+date: "2025-01-17"
+output: html_document
+---
+
+code from https://www.i-deel.org/blog/around-meta-analysis-13-deduplicating-bibliographic-records
+
+R v 4.2.2
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse) # version 2.0.0
+library(synthesisr) # version 0.3.0
+library(revtools) # version 0.4.1
+
+
+```
+
+```{r}
+raw <- read.csv("../search_2025-01-17/Ryyan_cobined_biblilist.csv") #load the file
+decided <- read.csv("../screening/Decisions_2025-02-05.csv")
+
+dec = merge(decided, raw, by="title", all.x = TRUE, all.y = FALSE) %>%
+  distinct(key.x, .keep_all = TRUE) %>%
+  select(title, key.x, year.y, journal.y, issn.y, volume.y, issue.y, pages.y, authors.y, url.y, publisher.y, abstract.y, doi.y, notes.x) %>%
+  rename(RayanID = key.x, year = year.y, journal = journal.y, issn = issn.y, volume = volume.y, issue = issue.y, pages = pages.y, authors = authors.y, url = url.y, publisher = publisher.y, abstract =  abstract.y, doi = doi.y, notes = notes.x) %>%
+  mutate(included = str_detect(notes, "Included")) %>%
+  mutate(Title_Screening_Lena = str_detect(notes, "Léna")) %>%
+  mutate(Title_Screening_Alberto = str_detect(notes, "Alberto")) %>%
+  mutate(Nobs_title_screening = Title_Screening_Lena+Title_Screening_Alberto)
+
+included = dec %>% filter(included == TRUE) %>% 
+  select(!starts_with("Title_Screening")) %>%
+  mutate(Lena = sample_frac(.75))
+
+
+write.csv(included, "../screening/includedpapers.csv" )
+
+```
+

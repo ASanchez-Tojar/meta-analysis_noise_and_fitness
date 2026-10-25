@@ -1,0 +1,169 @@
+---
+title: "Metanoise_deduplicate"
+author: "Lena"
+date: "2025-01-17"
+output: html_document
+---
+
+code from https://www.i-deel.org/blog/around-meta-analysis-13-deduplicating-bibliographic-records
+
+R v 4.2.2
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse) # version 2.0.0
+library(synthesisr) # version 0.3.0
+library(revtools) # version 0.4.1
+
+
+```
+
+```{r}
+# read data 
+raw <- read.csv("../search_2025-01-17/Ryyan_cobined_biblilist.csv") #load the file
+decided <- read.csv("../screening/Decisions_2025-02-05.csv")
+
+# format (recover the authors, clean up the decisions etc)
+dec = merge(decided, raw, by="title", all.x = TRUE, all.y = FALSE) %>%
+  distinct(key.x, .keep_all = TRUE) %>%
+  select(title, key.x, year.y, journal.y, issn.y, volume.y, issue.y, pages.y, authors.y, url.y, publisher.y, abstract.y, doi.y, notes.x) %>%
+  rename(RayanID = key.x, year = year.y, journal = journal.y, issn = issn.y, volume = volume.y, issue = issue.y, pages = pages.y, authors = authors.y, url = url.y, publisher = publisher.y, abstract =  abstract.y, doi = doi.y, notes = notes.x) %>%
+  mutate(included = str_detect(notes, "Included")) %>%
+  mutate(Title_Screening_Lena = str_detect(notes, "Léna")) %>%
+  mutate(Title_Screening_Alberto = str_detect(notes, "Alberto")) %>%
+  mutate(Nobs_title_screening = Title_Screening_Lena+Title_Screening_Alberto)
+
+# remove all excluded papers
+included = dec %>% filter(included == TRUE) %>% 
+  select(!starts_with("Title_Screening")) %>%
+  select(!notes)
+
+# select 50% of papers that should be read by two authors
+npapers = length(included$title)
+indices = 1:npapers
+overlap = sample(indices,0.5*npapers, replace = FALSE)
+
+# of the 50% that will not be read by two observers, select 50% (= 25% of the total) for each observer
+nonoverlap = indices[-overlap]
+lena = sample(nonoverlap, 0.5*length(nonoverlap), replace = FALSE)
+alberto = nonoverlap[-which(nonoverlap %in% lena)]
+
+# sampling into table
+included$Lena_must_read = 0
+included$Alberto_must_read = 0
+included$Lena_must_read [c(overlap, lena)] = 1
+included$Alberto_must_read[c(overlap, alberto)] = 1
+
+write.csv(included, "../screening/Included_papers_to_screen_2025-02-05.csv" , row.names = FALSE)
+
+```
+
+```{r}
+# read data 
+raw <- read.csv("../search_2025-01-17/Ryyan_cobined_biblilist.csv") #load the file
+decided <- read.csv("../screening/Decisions_2025-02-05.csv")
+supl = read.csv("../screening/SordelloEtal_suppl.csv")
+
+supl = supl %>% filter(population_vertebrates.birds=="yes") %>%
+  mutate(test = ifelse(outcome_biophys=="yes"|outcome_repro=="yes",1,0)) %>%
+  filter(test==1) %>%
+  mutate(title = stringr::str_replace_all(biblio_title,"[:punct:]","") %>% str_replace_all(.,"[ ]+", "") %>% tolower())
+
+snb = read_ref("../screening/backwardsSnowballmetassince2018_2025-02-06.ris") %>%
+  mutate(title = stringr::str_replace_all(title,"[:punct:]","") %>% str_replace_all(.,"[ ]+", "") %>% tolower())
+
+decided = decided %>% mutate(title = stringr::str_replace_all(title,"[:punct:]","") %>% str_replace_all(.,"[ ]+", "") %>% tolower())
+
+
+tsac = data.frame(title = c(decided$title, supl$title, snb$title), 
+                 dtset = c(rep("decided", times = length(decided$title)), 
+                           rep("supl", times = length(supl$title)),
+                           rep("snowball", times = length(snb$title))))
+
+dat2 <- distinct(tsac, title, .keep_all = TRUE) #reduce to records with unique titles (removes exact duplicates)
+ 
+dim(dat2) #see the new number of records
+#View(arrange(dat2, title2)$title2) #an optional visual check - sorted titles
+
+duplicates_string <- synthesisr::find_duplicates(dat2$title, method = "string_osa", to_lower = TRUE, rm_punctuation = TRUE, threshold = 7)
+dat3 = synthesisr::extract_unique_references(dat2, duplicates_string, type="select")
+
+end = merge(decided, dat3, by = "title", all= TRUE)
+
+
+```
+
+```{r}
+# read data 
+raw <- read.csv("../search_2025-01-17/Ryyan_cobined_biblilist.csv") #load the file
+decided <- read_ref("../screening/articles_decidedsecondround.ris") %>%
+  mutate(title = stringr::str_replace_all(title,"[:punct:]","") %>% str_replace_all(.,"[ ]+", "") %>% tolower())
+
+
+snb1 = read_ref("../screening/references-SNmeta2_2025-02-27.ris") %>%
+  mutate(title = stringr::str_replace_all(title,"[:punct:]","") %>% str_replace_all(.,"[ ]+", "") %>% tolower())
+
+decided = decided %>% mutate(title = stringr::str_replace_all(title,"[:punct:]","") %>% str_replace_all(.,"[ ]+", "") %>% tolower())
+
+
+tsac = data.frame(title = c(decided$title, supl$title, snb$title), 
+                 dtset = c(rep("decided", times = length(decided$title)), 
+                           rep("supl", times = length(supl$title)),
+                           rep("snowball", times = length(snb$title))))
+
+dat2 <- distinct(tsac, title, .keep_all = TRUE) #reduce to records with unique titles (removes exact duplicates)
+ 
+dim(dat2) #see the new number of records
+#View(arrange(dat2, title2)$title2) #an optional visual check - sorted titles
+
+duplicates_string <- synthesisr::find_duplicates(dat2$title, method = "string_osa", to_lower = TRUE, rm_punctuation = TRUE, threshold = 7)
+dat3 = synthesisr::extract_unique_references(dat2, duplicates_string, type="select")
+
+end = merge(decided, dat3, by = "title", all= TRUE)
+
+
+```
+
+```{r}
+# read data 
+raw <- read.csv("../search_2025-01-17/Ryyan_cobined_biblilist.csv") #load the file
+decided <- read.csv("../screening/Decisions_rescreen_2025-02-11.csv")
+
+# format (recover the authors, clean up the decisions etc)
+dec = merge(decided, raw, by="title", all.x = TRUE, all.y = FALSE) %>%
+  distinct(key.x, .keep_all = TRUE) %>%
+  select(title, key.x, year.y, journal.y, issn.y, volume.y, issue.y, pages.y, authors.y, url.y, publisher.y, abstract.y, doi.y, notes.x) %>%
+  rename(RayanID = key.x, year = year.y, journal = journal.y, issn = issn.y, volume = volume.y, issue = issue.y, pages = pages.y, authors = authors.y, url = url.y, publisher = publisher.y, abstract =  abstract.y, doi = doi.y, notes = notes.x) %>%
+  mutate(included = str_detect(notes, "Included")) %>%
+  mutate(Title_Screening_Lena = str_detect(notes, "Léna")) %>%
+  mutate(Title_Screening_Alberto = str_detect(notes, "Alberto")) %>%
+  mutate(Nobs_title_screening = Title_Screening_Lena+Title_Screening_Alberto)
+
+# remove all excluded papers
+included = dec %>% filter(included == TRUE) %>% 
+  select(!starts_with("Title_Screening")) %>%
+  select(!notes)
+
+# select 50% of papers that should be read by two authors
+npapers = length(included$title)
+indices = 1:npapers
+overlap = sample(indices,0.5*npapers, replace = FALSE)
+
+# of the 50% that will not be read by two observers, select 50% (= 25% of the total) for each observer
+nonoverlap = indices[-overlap]
+lena = sample(nonoverlap, 0.5*length(nonoverlap), replace = FALSE)
+alberto = nonoverlap[-which(nonoverlap %in% lena)]
+
+# sampling into table
+included$Lena_must_read = 0
+included$Alberto_must_read = 0
+included$Lena_must_read [c(overlap, lena)] = 1
+included$Alberto_must_read[c(overlap, alberto)] = 1
+
+write.csv(included, "../screening/Included_papers_to_textscreen_2025-02-11.csv" , row.names = FALSE)
+
+```
+
