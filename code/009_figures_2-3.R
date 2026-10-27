@@ -329,6 +329,14 @@ fig_SMD.H.VCV.H4.P13 <- orchaRd::orchard_plot(SMD.H.VCV.H4.P13,
 
 fig_SMD.H.VCV.H4.P13 <- fig_SMD.H.VCV.H4.P13 + pt_size
 
+fig_SMD.H.VCV.H4.P13 <- fig_SMD.H.VCV.H4.P13 +
+  scale_x_discrete(
+    labels = c(
+      "Relevant" = "Realistic",
+      "Irrelevant" = "Unrealistic"
+    )
+  )
+
 ################################################################################
 # Noise type (Hypothesis 4, P.14)
 ################################################################################
