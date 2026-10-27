@@ -1780,3 +1780,20 @@ big_table.1.b
 big_table.2.a
 big_table.2.b
 big_table.3
+
+
+# The non-pre-registered sensitivity analysis table too:
+
+# Many models into one big table (my function only partially works because it
+# does not fully accommodate continous moderators, but no issue, since this
+# is just for printing results)
+models.S.6 <- list(
+  Effect_size_origin = list(m = SMD.H.VCV.ES.origin.NoInt, mod = "ES_origin"),
+  Geary_test_category = list(m = SMD.H.VCV.geary.test.NoInt, mod = "geary_test"),
+  Publication_source = list(m = SMD.H.VCV.publication.source.NoInt, mod = "publication_source")
+)
+
+big_table.S.6 <- bind_rows(
+  lapply(models.S.6, \(x) extract_model(x$m, x$mod)),
+  .id = "model"
+)
