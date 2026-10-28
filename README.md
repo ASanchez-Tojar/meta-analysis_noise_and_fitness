@@ -12,7 +12,7 @@
 
 **Data License:** [CC BY 4.0](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/data_LICENSE.txt)
 
-**Description:** This repository contains the data, code and other materials used in the following study:
+**Description:** This repository contains the data, code and other materials used in the following pre-registered meta-analysis:
 
 ---
 
@@ -22,6 +22,7 @@ Alfredo Sánchez-Tójar, Nicholas P. Moran, Léna de Framond, Alberto Comin, Hen
 
 The repository consists of an R project with 3 folders. For a detailed description of all the files, please see below. To run this repository, first download and unzip the entire repository and open the Rproject file: [meta-analysis_noise_fitness.Rproj](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/meta-analysis_noise_fitness.Rproj). The scripts are named in the order that they should be run, from 002 to 010. The scripts used for step 001, i.e., the literature review, are provided within the folder [01_systematic_review](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/systematic_review). For any further information about this repository, please contact: [Alfredo Sánchez-Tójar](https://scholar.google.co.uk/citations?hl=en&user=Sh-Rjq8AAAAJ&view_op=list_works&sortby=pubdate), email: alfredo.tojar@gmail.com. 
 
+Pre-registration for this study available at: https://doi.org/10.17605/OSF.IO/HBPSF
 
 ## Information about folders and files within:
 
@@ -47,7 +48,7 @@ Folders:
 - [figures](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/tree/main/figures): contains all figures for this study.
 
 ## Data dictionary:
-We provide a data dictionary file for the raw (master) dataset [Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/03_raw/Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv). The explanation for the remaining variables, which are, in most cases, updated versions of the original variables and that were generated through the scripts (002 to 008), is provided within the scripts.
+We provide a data dictionary file for the raw (master) dataset [Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/03_raw/Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv), which we put together as we developed the data extract sheet template. This orignal dataset contains the original variables extracted during the data extraction phase, which are only a subset of all variables included in the processed dataset. The explanation for the remaining variables, which are, in most cases, updated versions of the original variables and that were generated through the scripts (002 to 008), is provided in a data dictionary that we have generated through an LMM based on script 002_data_cleaning.R, and a posteriori revised and extended whenever necessary to ensure validity, and is now provided in [noisemeta_datasheet_processed_1_data_dictionary_LMM.csv](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/04_processed/noisemeta_datasheet_processed_1_data_dictionary_LMM.csv).
 
 ## Software and {Packages} used
 
