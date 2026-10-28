@@ -50,6 +50,9 @@ Folders:
 ## Data dictionary:
 We provide a data dictionary file for the raw (master) dataset [Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/03_raw/Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv), which we put together as we developed the data extract sheet template. This orignal dataset contains the original variables extracted during the data extraction phase, which are only a subset of all variables included in the processed dataset. The explanation for the remaining variables, which are, in most cases, updated versions of the original variables and that were generated through the scripts (002 to 008), is provided in a data dictionary that we have generated through an LMM based on script 002_data_cleaning.R, and a posteriori revised and extended whenever necessary to ensure validity, and is now provided in [noisemeta_datasheet_processed_1_data_dictionary_LMM.csv](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/04_processed/noisemeta_datasheet_processed_1_data_dictionary_LMM.csv).
 
+## Supplementary Material:
+We provide a copy of the Supplementary Material (Appendix S1 to S6) in the folder [Supplementary Material](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/supplementary_material) to ensure this is stored in a repository external to the journal.
+
 ## Software and {Packages} used
 
 > sessionInfo()
