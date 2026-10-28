@@ -47,7 +47,7 @@ Folders:
 - [figures](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/tree/main/figures): contains all figures for this study.
 
 ## Data dictionary:
-We provide a data dictionary file for the raw (master) dataset [Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/raw/Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv). The explanation for the remaining variables, which were generated through the scripts (002 to 008) is provided within the scripts.
+We provide a data dictionary file for the raw (master) dataset [Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv](https://github.com/ASanchez-Tojar/meta-analysis_noise_and_fitness/blob/main/data/03_raw/Draft_noisemeta_datasheet_MASTER_20260705_Dictionary.csv). The explanation for the remaining variables, which are, in most cases, updated versions of the original variables and that were generated through the scripts (002 to 008), is provided within the scripts.
 
 ## Software and {Packages} used
 
