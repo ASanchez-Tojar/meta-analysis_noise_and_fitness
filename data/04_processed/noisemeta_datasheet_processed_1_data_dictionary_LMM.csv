@@ -1,0 +1,158 @@
+Variable,Description
+ES_ID,Unique identifier for an effect-size record.
+Study_ID,Identifier grouping records originating from the same study.
+Screener_ID,Identifier of the person who screened or coded the record.
+Title,Title of the publication or source reporting the study.
+Authors,"Publication authors, with encoding and whitespace standardised."
+Year,"Publication year, converted to numeric format."
+DOI,"Digital Object Identifier of the publication, where available."
+Lab_PI,"Principal investigator(s) associated with the study, as originally recorded from author and study information."
+Lab_PI_2,"Standardised principal investigator name(s), with notes removed and multiple/ambiguous names normalised where possible for consistent grouping."
+Journal,"Journal or publication outlet, with known naming inconsistencies standardised."
+Species_latin,"Scientific (Latin) name of the bird species studied as reported in the original study, with known typos and spacing corrected."
+Lab_Wild,"Study setting category indicating whether birds were studied in the wild or in a laboratory/captive setting, as coded in the source data."
+Captive_generation,Original information on the generation or history of captive breeding for the study animals.
+Captive_generation_2,"Standardised category for captive-breeding generation/history, recoded from Captive_generation."
+Latitude_N,"Latitude of the study location in decimal degrees, converted to numeric format. Used for mapping in Figure 1."
+Longitude_E,"Longitude of the study location in decimal degrees, converted to numeric format. Used for mapping in Figure 1."
+Season,Original season information for data collection or outcome measurement.
+Season_2,"Standardised season category, including breeding and non-breeding, recoded from Season."
+Year_collection,Original year or period when data were collected.
+Year_collection_2,Numeric year of data collection; ranges or periods are represented using an assigned midpoint or representative year.
+Pop_ID,Identifier for the population represented by a study record.
+LS_position,Original description of loudspeaker position relative to the study subjects or experimental setup.
+LS_position_2,"Simplified loudspeaker-position category, principally distinguishing positions inside versus outside."
+Noise_type,Original description of the sound source used as the experimental noise treatment.
+Noise_type_2,"Cleaned noise-source description, with parenthetical notes removed and combinations of sources standardised."
+Noise_type_3,"Categorisation of noise sources as ecologically relevant/realistic or less relevant/less realistic, based on the study's predefined classification of sound sources."
+Noise_type_4,"Further grouping of noise sources into traffic noise, industrial noise, or broader combined categories for moderator analyses."
+Group_compar_YN,"Original coding of whether treatment and comparison groups are independent/comparable, including before–after or crossed designs."
+Group_compar_YN_2,"Standardised treatment–comparison design category, with selected before–after/crossed designs combined for analysis."
+dB_weight,"Frequency weighting used for sound-level measurements (e.g., A-weighting), where reported."
+dB_measure,Original description of the sound-level metric or measurement method reported in the study.
+dB_measure_2,"Standardised sound-level measurement category derived from dB_measure, with explanatory notes removed."
+SPLm_pos,Original information on the position at which sound-pressure level was measured.
+SPLm_pos_2,Standardised sound-pressure-level measurement-position category.
+Broadcast_period,Original description of the period or stage during which noise was broadcast.
+Broadcast_period_2,"Cleaned broadcast-period description, with parenthetical information separated or removed as specified in the script."
+Broadcast_period_3,"Categorised stage/timing of noise broadcasting (e.g., laying, incubation, nestling, or post-fledging), recoded for analysis."
+Ctrl_noise_min,"minimum sound level for the control condition, as reported in the study."
+Ctrl_noise_min_2,"Cleaned numeric minimum sound level for the control condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Ctrl_noise_max,"maximum sound level for the control condition, as reported in the study."
+Ctrl_noise_max_2,"Cleaned numeric maximum sound level for the control condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Ctrl_noise_mean,"mean sound level for the control condition, as reported in the study."
+Ctrl_noise_mean_2,"Cleaned numeric mean sound level for the control condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Ctrl_noise_SD,"standard deviation of sound level for the control condition, as reported in the study."
+Ctrl_noise_SD_2,"Cleaned numeric standard deviation of sound level for the control condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Ctrl_noise_SE,"standard error of sound level for the control condition, as reported in the study."
+Ctrl_noise_SE_2,"Cleaned numeric standard error of sound level for the control condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Expe_noise_min,"minimum sound level for the experimental/noise-exposure condition, as reported in the study."
+Expe_noise_min_2,"Cleaned numeric minimum sound level for the experimental/noise-exposure condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Expe_noise_max,"maximum sound level for the experimental/noise-exposure condition, as reported in the study."
+Expe_noise_max_2,"Cleaned numeric maximum sound level for the experimental/noise-exposure condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Expe_noise_mean,"mean sound level for the experimental/noise-exposure condition, as reported in the study."
+Expe_noise_mean_2,"Cleaned numeric mean sound level for the experimental/noise-exposure condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Dif_noise_mean,"Difference between the experimental-group and control-group mean sound levels, based on the cleaned mean sound-level values."
+Expe_noise_SD,"standard deviation of sound level for the experimental/noise-exposure condition, as reported in the study."
+Expe_noise_SD_2,"Cleaned numeric standard deviation of sound level for the experimental/noise-exposure condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+Expe_noise_SE,"standard error of sound level for the experimental/noise-exposure condition, as reported in the study."
+Expe_noise_SE_2,"Cleaned numeric standard error of sound level for the experimental/noise-exposure condition, as reported in the study. Non-numeric or ambiguous entries were resolved where specified in the script."
+PB_period,"Duration of the period over which noise was broadcast or animals were exposed, as reported in the study."
+PB_days_of_exposure,Number of days on which noise was broadcast or exposure occurred. Manually generated in script 002.
+PB_min_of_exposure_per_day,Minutes of noise exposure per day. Manually generated in script 002.
+Group_ID,Original identifier for an experimental/comparison group within a study.
+Group_ID_unique,Unique group identifier constructed to distinguish groups across studies.
+Shared_Ctrl_N,Count of effect-size records sharing a comparison group (often the control); used to identify dependence arising from shared groups.
+Shared_Ctrl_N_divide,Divisor used to adjust the shared control-group sample size across effect sizes that reuse that control group.
+Shared_Expe_N_divide,Divisor used to adjust experimental-group sample size where the same experimental group contributes to multiple effect sizes.
+Shared_Ctrl_ID,Identifier marking comparison groups shared by multiple effect sizes (often the control group).
+Shared_Ctrl_ID_unique,Unique shared-group identifier constructed to avoid collisions between studies.
+Outcome,"Original description of the measured response variable or trait, including any notes in parentheses."
+Outcome_2,"Core outcome/trait name extracted from Outcome, with parenthetical notes removed."
+Outcome_level,"Classification of the outcome as a direct or indirect measure of fitness, based on the predefined list of direct fitness outcomes."
+Outcome_3,"Broad outcome category assigned from Outcome_2 (e.g., fitness, morphology, growth, egg traits, parental behaviour, hormones/corticosterone, immunity, telomeres, or reproductive timing)."
+Outcome_4,"Final broad outcome grouping used to identify fitness proxies; categories were consolidated into direct fitness, morphology & growth, physiology, and parental investment, and records not meeting the fitness-proxy criteria were excluded."
+Outcome_comments,Explanatory notes separated from Outcome.
+Outcome_unit,"Measurement unit for the outcome, standardised for case, spacing, and common unit abbreviations."
+Transformation,"Transformation applied to the outcome or effect-size data, as reported originally."
+Bird_age,Original age/life-stage information for birds when the outcome was measured.
+Bird_age_2,Numeric bird age in days where extractable; non-numeric life-stage labels are left missing. Lots of NA's due to lack of reporting.
+Bird_age_category,"Standardised bird life-stage category (e.g., pre-fledging or post-fledging), derived from age and outcome-specific decisions."
+Spl_time_after_noise,"Original description of the interval between noise exposure and measurement of the outcome (i.e., sampling time)."
+Spl_time_after_noise_2,"Cleaned numeric interval between the end of noise exposure and outcome sampling; when a range was reported, the script generally selected its upper value."
+Spl_time_after_noise_comments,Explanatory notes separated from Spl_time_after_noise.
+Repeated_trait_ID,Identifier for outcomes/traits repeatedly measured or reported within a study.
+Repeated_trait_ID_unique,Unique repeated-trait identifier constructed by combining Group_ID_unique and Repeated_trait_ID.
+Outcome_expected_sign_authors,Original author-reported expected direction of the relationship between the measured outcome and fitness/noise.
+Outcome_expected_sign_authors_2,"Cleaned numeric coding of the author-reported expected direction, extracted from Outcome_expected_sign_authors."
+Outcome_expected_sign_authors_comments,Explanatory notes separated from Outcome_expected_sign_authors.
+Mean_ctrl_group,"Mean outcome value in the control group, converted to numeric where possible."
+SD_ctrl_value,"Standard deviation of the outcome in the control group, converted to numeric where possible."
+SE_ctrl_value,"Standard error of the outcome in the control group, converted to numeric where possible."
+N_nests_ctrl,Original sample size for the control group when the replication unit is nests/nesting attempts.
+N_nests_ctrl_2,Cleaned numeric control-group sample size for nests/nesting attempts; ambiguous text entries were resolved or set missing.
+N_individuals_ctrl,Original control-group sample size when the replication unit is individual birds.
+N_individuals_ctrl_2,Cleaned numeric control-group sample size for individuals; ambiguous or unusable text entries were resolved or set missing.
+N_other_replication_unit_ctrl,Original control-group sample size for a replication unit other than nests or individuals.
+N_other_replication_unit_ctrl_2,"Cleaned numeric control-group sample size for another replication unit, with selected ambiguous entries resolved."
+Ctrl_replication_unit,"Original or manually completed replication unit for the control group (e.g., nest, individual, clutch, or trial)."
+Ctrl_replication_unit_2,Harmonised control-group replication-unit category used to select the appropriate sample-size variable.
+Mean_expe_group,"Mean outcome value in the experimental/noise-exposure group, converted to numeric where possible."
+SD_expe_value,"Standard deviation of the outcome in the experimental/noise-exposure group, converted to numeric where possible."
+SE_expe_value,"Standard error of the outcome in the experimental/noise-exposure group, converted to numeric where possible."
+N_nests_expe,Original sample size for the experimental group when the replication unit is nests/nesting attempts.
+N_nests_expe_2,Cleaned numeric experimental-group sample size for nests/nesting attempts; ambiguous text entries were resolved or set missing.
+N_individuals_expe,Original experimental-group sample size when the replication unit is individual birds.
+N_individuals_expe_2,Cleaned numeric experimental-group sample size for individuals; ambiguous or unusable text entries were resolved or set missing.
+N_other_replication_unit_expe,Original experimental-group sample size for a replication unit other than nests or individuals.
+N_other_replication_unit_expe_2,"Cleaned numeric experimental-group sample size for another replication unit, with selected ambiguous entries resolved."
+Expe_replication_unit,Original or manually completed replication unit for the experimental group.
+Expe_replication_unit_2,Harmonised experimental-group replication-unit category used to select the appropriate sample-size variable.
+Slope,Reported slope/effect estimate for the few studies analysed using a slope or gradient rather than a two-group contrast.
+Slope_unit,Unit or scale associated with the reported slope.
+SE_Slope,Standard error of the reported slope.
+N_nests_slope,Sample size for slope-based analyses when the replication unit is nests/nesting attempts.
+N_individuals_slope,Sample size for slope-based analyses when the replication unit is individual birds.
+N_other_replication_unit_slope,Sample size for slope-based analyses using another replication unit.
+Slope_replication_unit,Replication unit associated with the slope estimate.
+Inferential_statistic,Reported inferential statistic or test result used to derive an effect size when group summary statistics were unavailable. Not used for our study.
+Inferential_statistic_df1,"First degrees-of-freedom value for the reported inferential statistic, where applicable. Not used for our study."
+Inferential_statistic_df2,"Second degrees-of-freedom value for the reported inferential statistic, where applicable. Not used for our study."
+Inferential_statistic_df2_level,Level or interpretation associated with the second degrees-of-freedom value. Not used for our study.
+Replication_unit_Inferential_stat,Replication unit assumed or reported for the inferential statistic. Not used for our study.
+Inferential_statistic_N_Spl_size,Sample-size information associated with the reported inferential statistic. Not used for our study.
+Inferential_statistic_Type,"Type of inferential statistic reported (e.g., test/statistic family). Not used for our study."
+Inferential_statistic_Origin,"Source/location of the inferential statistic (e.g., text, table, figure, or supplementary material). Not used for our study."
+Inferential_statistic_comment,Notes on interpretation or extraction of the inferential statistic. Not used for our study.
+Inferential_statistic_sign,Direction/sign of the reported inferential statistic or estimated effect. Not used for our study.
+CRI_low,"Lower limit of a reported confidence/credible interval for the relevant estimate, when available. Not used for our study."
+CRI_high,"Upper limit of a reported confidence/credible interval for the relevant estimate, when available. Not used for our study."
+Model_N_fixef,Information on the number of fixed-effect parameters in the statistical model reported by the source study. Not used for our study.
+Model_N_raneff,Information on the random-effects structure or number of random-effect terms in the statistical model reported by the source study. Not used for our study.
+Model_distrib,"Probability distribution/error family specified for the reported statistical model, where available. Not used for our study."
+Model_comments,"Additional notes on the reported model, its structure, or interpretation."
+Effect.size.comment,Extraction notes or caveats specific to the effect-size record.
+P_value,"Reported p-value for the relevant effect or statistical test, where available. Not used for our study."
+Data_in_paper,Notes identifying where the data needed for the effect size were found in the publication or supplementary material.
+Notes,"General extraction notes, clarifications, or decisions relevant to the record."
+Observed_treatment_larger,"Indicator of whether the observed outcome was larger in the treatment group than in the control group, where this information was recorded or derived."
+N_final_total,Combined final sample size for control and experimental groups.
+N_ctrl_final,Final control-group sample size selected from the relevant replication-unit-specific sample-size fields.
+N_expe_final,Final experimental-group sample size selected from the relevant replication-unit-specific sample-size fields.
+N_ctrl_final_adj,Control-group sample size after adjustments for shared groups or other dependence-related considerations.
+N_expe_final_adj,Experimental-group sample size after adjustments for shared groups or other dependence-related considerations.
+N_final_total_adj,Combined adjusted sample size for the control and experimental groups.
+data_reporting,"Study-level data-reporting completeness indicator; marked incomplete when any effect-size source requires author correspondence, otherwise complete."
+alpha,"Reported or assumed significance threshold for the statistical test, where available. Not used for our study."
+Altitude,Elevation of the study location as reported in the source dataset; the script checks this field but does not use it analytically because the information is unclear or insufficiently consistent. Not used for our study.
+Outcome_expected_sign_metaanalysis,"Original coded expected direction of the noise–fitness relationship for the meta-analysis, including any explanatory notes."
+Outcome_expected_sign_metaanalysis_2,Numeric expected direction of the noise–fitness relationship extracted from the original field; rows without a clear expected direction were excluded.
+Outcome_expected_sign_metaanalysis_comments,Explanatory notes separated from Outcome_expected_sign_metaanalysis.
+Outcome_expected_sign_metaanalysis_to_multiply,"Sign multiplier derived from the expected direction for the association between noise and the fitness trait proxy based on our own categorisation, used to ensure the direction of the effect sizes is consistent. It will be used to multiply calculated effect sizes, that way, ensure comparable effect sizes throughout."
+ES_incl,"Original screening decision indicating whether an effect-size record is eligible, partly eligible, or uncertain, often with a reason."
+ES_incl_2,"Screening decision extracted from ES_incl, with parenthetical explanations removed."
+ES_incl_reason,"Reason for the screening decision, extracted from the parentheses in ES_incl."
+ES_source,Original description of the source used to obtain or calculate the effect size and its sampling information.
+ES_source_2,"Standardised effect-size data source, separated from explanatory text in ES_source."
+ES_source_reason,Explanatory notes separated from ES_source.
+Contact.authors.,"Contact/corresponding-author information recorded for the publication, where available."
