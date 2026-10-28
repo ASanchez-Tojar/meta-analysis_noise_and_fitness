@@ -1,10 +1,12 @@
+[![DOI](https://zenodo.org/badge/1408570758.svg)](https://doi.org/10.5281/zenodo.23722169)
+
 # Short title: Impact of anthropogenic noise on avian fitness
 ## Title: Noise as a global change driver: a meta-analysis of its fitness consequences for birds
 **Contributors:** Alfredo Sánchez-Tójar, Nicholas P. Moran, Léna de Framond, Alberto Comin, Henrik Brumm
 
 **Date created:** October 2026
 
-**Identifer:** DOI (TBA)
+**Identifer:** 10.5281/zenodo.23722169
 
 **Category:** Project
 
